@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import entity.Player;
 
 public class GamePanel extends JPanel implements Runnable{//this class inherites JPanel class
-
 	//Will Make some screen settings here
 	final int originalTileSize=16;// 16*16 tile
 	final int scale=3;//will multiply size 3 times 
@@ -52,37 +51,61 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 	public void run() {//we will create a game loop,which will be the core of our game
 		
 		double drawInterval=1000000000/FPS;
-		double nextDrawTime=System.nanoTime()+drawInterval;
+	//	double nextDrawTime=System.nanoTime()+drawInterval;
+		
+		double delta=0;
+		long lastTime=System.nanoTime();
+		long currentTime;
+		long timer=0;
+		int drawCount=0;
 		
 	
 		while(gameThread!=null) {
 			
-			//long currentTime=System.nanoTime();
-;			//long currentTime2=System.currentTimeMillis();
-
-			//Update:Update information such as character position
-			update();
+			currentTime=System.nanoTime();
 			
-			//Draw: dreaw the screen with the updated information
-			repaint();//it's the way to call paint component method
+			delta+=(currentTime-lastTime)/drawInterval;
+			timer+=(currentTime-lastTime);
+			lastTime=currentTime;
 			
-			
-			try {
-				double remainingTime=nextDrawTime-System.nanoTime();
-				remainingTime/=1000000;
-				
-				if(remainingTime<0) {
-					remainingTime=0;
-				}
-					 
-				
-				Thread.sleep((long) remainingTime);
-				nextDrawTime +=drawInterval;
-			
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
+			if(delta>=1) {
+				update();
+				repaint();
+				delta--;
+				drawCount++;
 			}
+			if(timer>=1000000000) {
+				drawCount=0;
+				timer=0;
+			}
+			
+//			//long currentTime=System.nanoTime();
+//;			//long currentTime2=System.currentTimeMillis();
+//
+//			//Update:Update information such as character position
+//			update();
+//			
+//			//Draw: dreaw the screen with the updated information
+//			repaint();//it's the way to call paint component method
+//			
+//			
+//			try {
+//				double remainingTime=nextDrawTime-System.nanoTime();
+//				remainingTime/=1000000;
+//				
+//		 		if(remainingTime<0) {
+//					remainingTime=0;
+//				}
+//					 
+//				
+//				Thread.sleep((long) remainingTime);
+//				nextDrawTime +=drawInterval;
+//			
+//			} catch (InterruptedException e) {
+//				
+//				e.printStackTrace();
+//			}
+			
 			
 			
 		}

@@ -16,6 +16,7 @@ KeyHandler keyH;
 		this.gp =gp;
 		this.keyH=keyH; 
 		setDefaultValues();
+		
 	}
 	public void setDefaultValues() {
 		x=100;
@@ -27,14 +28,14 @@ KeyHandler keyH;
 	public void getplayerImage() {
 		try {
 
-			up1=ImageIO.read(getClass().getResourceAsStream("/player/bouy_up_1.png"));
-			up2=ImageIO.read(getClass().getResourceAsStream("/player/bouy_up_2.png"));
-			down1=ImageIO.read(getClass().getResourceAsStream("/player/bouy_down_1.png"));
-			down2=ImageIO.read(getClass().getResourceAsStream("/player/bouy_down_2.png"));
-			left1=ImageIO.read(getClass().getResourceAsStream("/player/bouy_left_1.png"));
-			left2=ImageIO.read(getClass().getResourceAsStream("/player/bouy_left_2.png"));
-			right1=ImageIO.read(getClass().getResourceAsStream("/player/bouy_right_1.png"));
-			right2=ImageIO.read(getClass().getResourceAsStream("/player/bouy_right_2.png"));
+			up1=ImageIO.read(getClass().getResourceAsStream("/player/Up1.png"));
+			up2=ImageIO.read(getClass().getResourceAsStream("/player/Up2.png"));
+			down1=ImageIO.read(getClass().getResourceAsStream("/player/Down1.png"));
+			down2=ImageIO.read(getClass().getResourceAsStream("/player/Down2.png"));
+			left1=ImageIO.read(getClass().getResourceAsStream("/player/Left1.png"));
+			left2=ImageIO.read(getClass().getResourceAsStream("/player/Left2.png"));
+			right1=ImageIO.read(getClass().getResourceAsStream("/player/Right1.png"));
+			right2=ImageIO.read(getClass().getResourceAsStream("/player/Right2.png"));
 			
 			
 		}catch(IOException e) {
@@ -112,6 +113,6 @@ KeyHandler keyH;
 			
 		}
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize,null);
-	}
+    }
 	
 }
