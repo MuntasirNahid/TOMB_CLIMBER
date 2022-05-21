@@ -28,6 +28,7 @@ KeyHandler keyH;
 	public void getplayerImage() {
 		try {
 
+			
 			up1=ImageIO.read(getClass().getResourceAsStream("/player/Up1.png"));
 			up2=ImageIO.read(getClass().getResourceAsStream("/player/Up2.png"));
 			down1=ImageIO.read(getClass().getResourceAsStream("/player/Down1.png"));
