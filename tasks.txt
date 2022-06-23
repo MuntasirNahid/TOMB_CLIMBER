@@ -1,4 +1,0 @@
-1. menu connect
-2. map background -> nahid
-3. character selection 
-4. movement restriction
