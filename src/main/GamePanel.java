@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 import entity.Player;
+import object.SuperObject;
+import tile.TileManager;
+
+
 
 public class GamePanel extends JPanel implements Runnable{//this class inherites JPanel class
 	//Will Make some screen settings here
@@ -14,17 +19,27 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 	final int scale=3;//will multiply size 3 times 
 	public final int tileSize=originalTileSize*scale;//48*48 tile//screen size
 	
-	final int maxScreenCol=16;//16 tiles horizontally
-	final int maxScreenRow=12;//12 tiles vertically
-	final int screenWidth=tileSize*maxScreenCol;//768 Pixels
-	final int screenHeight=tileSize*maxScreenRow;//576 Pixels
+	public final int maxScreenCol=16;//16 tiles horizontally
+	public final int maxScreenRow=12;//12 tiles vertically
+	public final int screenWidth=tileSize*maxScreenCol;//768 Pixels
+	public final int screenHeight=tileSize*maxScreenRow;//576 Pixels
 	
 	//FPS
 	int FPS=60;
 	
+	TileManager tileH = new TileManager(this); 
 	KeyHandler keyH=new KeyHandler();
 	Thread gameThread;
-	Player player = new Player();
+//	public CollisionChecker cChecker=new CollisionChecker(this);
+	
+	//Object Image
+	public AssetSetter aSetter=new AssetSetter(this);
+	
+	
+	//***
+	public Player player =new Player (this,keyH);//main culprit
+	public SuperObject obj[]=new SuperObject[10];//we will add ten coins at a time
+	
 	
 	//player's default position
 	int playerX=100;
@@ -39,6 +54,12 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
 	}
+	
+	//Object SetUp
+	public void setupGame() {
+		aSetter.setObject();
+	}
+	
 	public void startGameThread() {
 		
 		gameThread=new Thread(this);
@@ -50,66 +71,27 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 	public void run() {//we will create a game loop,which will be the core of our game
 		
 		double drawInterval=1000000000/FPS;
-	//	double nextDrawTime=System.nanoTime()+drawInterval;
-		
 		double delta=0;
 		long lastTime=System.nanoTime();
 		long currentTime;
-		long timer=0;
-		int drawCount=0;
-		
-	
+
 		while(gameThread!=null) {
 			
-			currentTime=System.nanoTime();
-			
-			delta+=(currentTime-lastTime)/drawInterval;
-			timer+=(currentTime-lastTime);
-			lastTime=currentTime;
-			
-			if(delta>=1) {
-				update();
-				repaint();
-				delta--;
-				drawCount++;
-			}
-			if(timer>=1000000000) {
-				drawCount=0;
-				timer=0;
-			}
-			
-//			//long currentTime=System.nanoTime();
-//;			//long currentTime2=System.currentTimeMillis();
-//
-//			//Update:Update information such as character position
-//			update();
-//			
-//			//Draw: dreaw the screen with the updated information
-//			repaint();//it's the way to call paint component method
-//			
-//			
-//			try {
-//				double remainingTime=nextDrawTime-System.nanoTime();
-//				remainingTime/=1000000;
-//				
-//		 		if(remainingTime<0) {
-//					remainingTime=0;
-//				}
-//					 
-//				
-//				Thread.sleep((long) remainingTime);
-//				nextDrawTime +=drawInterval;
-//			
-//			} catch (InterruptedException e) {
-//				
-//				e.printStackTrace();
-//			}
-			
-			
-			
-		}
+		currentTime=System.nanoTime();
 		
-	}
+		delta+=(currentTime-lastTime)/drawInterval;
+		lastTime=currentTime;
+		
+		if(delta>=1) {
+			//Update:Update information such as character position
+			update();
+			
+				//Draw: dreaw the screen with the updated information
+			repaint();//it's the way to call paint component method
+			delta--;
+			}		
+		}
+	 }
 	public void update() {
 		
 		player.update();
@@ -127,21 +109,33 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 //			playerX+=playerSpeed;
 //		}
 		
+		
 	}
 	
 	public void paintComponent(Graphics g) {//it's a builtin method in java
 		
 		super.paintComponent(g);
 		Graphics2D g2=(Graphics2D)g;//Graphics 2D have more functions than graphics
+	
+		//Tile
+		tileH.draw(g2);
 		
-		player.draw(g2);
+		//Object
+		for(int i=0;i<obj.length;i++) {
+			if(obj[i]!=null) {
+				obj[i].draw(g2, this);
+			}
+		}
+		
+		//Player
+		player.draw(g2); 
 //		g2.setColor(Color.white);
 //		g2.fillRect(playerX, playerY, tileSize,tileSize);
 //		
 		g2.dispose();
 		
 		
-	}
+ 	}
 
 	
 	

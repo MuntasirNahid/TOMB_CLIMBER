@@ -1,22 +1,25 @@
 package entity;
-
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import main.GamePanel;
-import main.KeyHandler;
 
+import javax.imageio.ImageIO;
+
+
+import main.GamePanel;
+import main.KeyHandler;  
 public class Player extends Entity {
+//	
+	GamePanel gp;
+	KeyHandler keyH;
 	
-GamePanel gp;
-KeyHandler keyH;
-	
-	public void player(GamePanel gp, KeyHandler keyH) {
-		this.gp =gp;
+
+	public  Player(GamePanel gp, KeyHandler keyH) {
+	 this.gp =gp;
 		this.keyH=keyH; 
-		setDefaultValues();
-		
+	setDefaultValues();
+		getplayerImage();
 	}
 	public void setDefaultValues() {
 		x=100;
@@ -28,15 +31,15 @@ KeyHandler keyH;
 	public void getplayerImage() {
 		try {
 
+			up1=ImageIO.read(getClass().getResourceAsStream("Up1.png"));
+			up2=ImageIO.read(getClass().getResourceAsStream("Up2.png"));
+			down1=ImageIO.read(getClass().getResourceAsStream("Down1.png"));
+			down2=ImageIO.read(getClass().getResourceAsStream("Down2.png"));
+			left1=ImageIO.read(getClass().getResourceAsStream("Left1.png"));
+			left2=ImageIO.read(getClass().getResourceAsStream("Left2.png"));
+			right1=ImageIO.read(getClass().getResourceAsStream("Right1.png"));
+			right2=ImageIO.read(getClass().getResourceAsStream("Right2.png"));
 			
-			up1=ImageIO.read(getClass().getResourceAsStream("/player/Up1.png"));
-			up2=ImageIO.read(getClass().getResourceAsStream("/player/Up2.png"));
-			down1=ImageIO.read(getClass().getResourceAsStream("/player/Down1.png"));
-			down2=ImageIO.read(getClass().getResourceAsStream("/player/Down2.png"));
-			left1=ImageIO.read(getClass().getResourceAsStream("/player/Left1.png"));
-			left2=ImageIO.read(getClass().getResourceAsStream("/player/Left2.png"));
-			right1=ImageIO.read(getClass().getResourceAsStream("/player/Right1.png"));
-			right2=ImageIO.read(getClass().getResourceAsStream("/player/Right2.png"));
 			
 			
 		}catch(IOException e) {
@@ -72,8 +75,19 @@ KeyHandler keyH;
 				spriteCounter=0;
 			}
 		}
-		
-		
+//		if(keyH.upPressed==true) {
+//	y-=speed;	
+//		}
+//	else if(keyH.downPressed==true) {
+//		y+=speed;//pixels
+//		}
+//	else if(keyH.leftPressed==true) {
+//		x-=speed;
+//		}
+//	else if(keyH.rightPressed==true) {
+//		x+=speed;
+//		}
+////		
 	}
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
@@ -114,6 +128,9 @@ KeyHandler keyH;
 			
 		}
 		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize,null);
-    }
-	
+////
+//		g2.setColor(Color.white);
+//		g2.fillRect(x, y, gp.tileSize,gp.tileSize);
+	}
+////	
 }
