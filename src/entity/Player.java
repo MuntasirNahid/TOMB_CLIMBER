@@ -1,6 +1,7 @@
 package entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -13,11 +14,22 @@ public class Player extends Entity {
 //	
 	GamePanel gp;
 	KeyHandler keyH;
-	
+	public int hasCoin=0;
 
 	public  Player(GamePanel gp, KeyHandler keyH) {
 	 this.gp =gp;
 		this.keyH=keyH; 
+		
+		
+		//Object collision detection:
+		solidArea=new Rectangle();
+		solidArea.x=0;
+		solidArea.y=16;
+		solidAreaDefaultX=solidArea.x;
+		solidAreaDefaultY=solidArea.y;
+		
+		
+		
 	setDefaultValues();
 		getplayerImage();
 	}
@@ -26,6 +38,11 @@ public class Player extends Entity {
 		y=100;
 		speed=4;
 		direction="down";
+		
+		//PLAYER STATUS
+		maxLife=6;
+		life=maxLife;
+		
 		
 	}
 	public void getplayerImage() {
@@ -58,10 +75,17 @@ public class Player extends Entity {
 			}else if(keyH.leftPressed==true) {
 				direction="left";
 				x-=speed;
-			}else if(keyH.rightPressed   ==true) {
+			}else if(keyH.rightPressed ==true) {
 				direction="right";
 				x+=speed;
 			}
+			
+			
+			
+			//CHECK OBJECT COLLISION:
+			int objIndex=gp.cChecker.checkObject(this,true);
+			pickUpObject(objIndex);
+			
 			
 			spriteCounter++;//it increases when we press one of these keys
 			if(spriteCounter>12)//Image changes in every 10 frames
@@ -89,6 +113,15 @@ public class Player extends Entity {
 //		}
 ////		
 	}
+	
+	public void pickUpObject(int index) {
+		if(index!=999) {
+//			String objectName=gp.obj[index].name;
+			hasCoin++;
+			gp.obj[index]=null;
+		}
+	}
+	
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
 		switch(direction) {

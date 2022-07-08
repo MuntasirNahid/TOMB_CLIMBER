@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import entity.Entity;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
@@ -23,23 +24,37 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 	public final int maxScreenRow=12;//12 tiles vertically
 	public final int screenWidth=tileSize*maxScreenCol;//768 Pixels
 	public final int screenHeight=tileSize*maxScreenRow;//576 Pixels
-	
+	public boolean gameState=true;
+	public boolean playState=true;
 	//FPS
 	int FPS=60;
 	
+	//Map
 	TileManager tileH = new TileManager(this); 
+	//KeyListener
 	KeyHandler keyH=new KeyHandler();
+	
+	//collision checker
+	public CollisionChecker cChecker=new CollisionChecker(this);
+	
 	Thread gameThread;
-//	public CollisionChecker cChecker=new CollisionChecker(this);
+	
+	
+	
 	
 	//Object Image
 	public AssetSetter aSetter=new AssetSetter(this);
 	
-	
+	//UI
+	public UI ui=new UI(this);
 	//***
 	public Player player =new Player (this,keyH);//main culprit
+	
+	//Object Array
 	public SuperObject obj[]=new SuperObject[10];//we will add ten coins at a time
 	
+	//MONSTER ARRAY
+	public Entity monster[]=new Entity[20];
 	
 	//player's default position
 	int playerX=100;
@@ -50,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//set the size of this class(JPanel
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);//if set to true,all the drawing from this component will be done in an offscreen painting buffer 
-		//enabling this can improve gane's renderring performance
+		//enabling this can improve gane's rendering performance
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
 	}
@@ -58,6 +73,10 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 	//Object SetUp
 	public void setupGame() {
 		aSetter.setObject();
+		//aSetter.setNPC();
+		aSetter.setMonster();
+		gameState=playState;
+		
 	}
 	
 	public void startGameThread() {
@@ -93,8 +112,18 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 		}
 	 }
 	public void update() {
+		if(gameState==playState) {
+		//PLAYER
+			player.update();
+			
+			//MONSTER
+			for(int i=0;i<monster.length;i++) {
+				if(monster[i]!=null) {
+					monster[i].update();
+				}
+			}
+		}
 		
-		player.update();
 		
 //		if(keyH.upPressed==true) {
 //			playerY-=playerSpeed;	
@@ -129,6 +158,10 @@ public class GamePanel extends JPanel implements Runnable{//this class inherites
 		
 		//Player
 		player.draw(g2); 
+		
+		//UI
+		ui.draw(g2);
+		
 //		g2.setColor(Color.white);
 //		g2.fillRect(playerX, playerY, tileSize,tileSize);
 //		

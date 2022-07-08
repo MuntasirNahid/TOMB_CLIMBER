@@ -1,6 +1,5 @@
 package tile;
 
-
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +12,7 @@ import java.nio.Buffer;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 
 public class TileManager {
@@ -30,6 +30,23 @@ public class TileManager {
 		
 		loadMap();
 		getTileImage();
+	}
+	
+	//CREATING FOR UTILITY TOOL CLASS
+		
+	public void setup(int index,String imagepath,boolean collision) {
+		UtilityTool uTool=new UtilityTool();
+		try {
+			tile[index]=new Tile();
+			//changed something in this line
+			tile[index].image=ImageIO.read(getClass().getResourceAsStream( imagepath +".jpg"));
+			tile[index].image=uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+			tile[index].collision=collision;
+			
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void loadMap() {
@@ -80,8 +97,13 @@ public class TileManager {
 		
 		try	{
 			
-//			File directory = new File(" ");
-//			System.out.println(directory.getAbsolutePath());
+		File directory = new File(" ");
+		System.out.println(directory.getAbsolutePath());
+			
+//			setup(0,"black_tile",true);
+//			setup(0,"black_tile",true);
+//			setup(0,"brick",true);
+//			setup(0,"ladder_black",false);
 //			
 			tile[0] = new Tile();
 			tile[0].image = ImageIO.read(getClass().getResourceAsStream("black_tile.jpg"));
@@ -96,10 +118,10 @@ public class TileManager {
 			tile[2].collision = true;
 			
 			tile[3] = new Tile();
-			tile[3].image = ImageIO.read(getClass().getResourceAsStream("ladder_black.jpg"));
+			//tile[3].image = ImageIO.read(getClass().getResourceAsStream("ladder_black.jpg"));
 			
 		}catch(IOException e)	{
-			e.printStackTrace();
+		e.printStackTrace();
 		}
 	}
 	

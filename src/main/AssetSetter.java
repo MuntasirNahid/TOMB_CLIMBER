@@ -1,5 +1,6 @@
 package main;
 
+import monster.MON_MUMMY;
 import object.OBJ_Coin;
 
 public class AssetSetter {
@@ -20,7 +21,16 @@ public class AssetSetter {
 		gp.obj[1].y=4 * gp.tileSize;
 	}
 	
-	
+	public void setMonster() {
+		gp.monster[0]=new MON_MUMMY(gp);
+		gp.monster[0].x=gp.tileSize*23;
+		gp.monster[0].y=gp.tileSize*37;
+		
+		gp.monster[1]=new MON_MUMMY(gp);
+		gp.monster[1].x=gp.tileSize*23;
+		gp.monster[1].y=gp.tileSize*37;
+		
+	}
 
 }
 
