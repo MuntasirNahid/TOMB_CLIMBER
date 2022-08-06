@@ -23,13 +23,15 @@ public class Player extends Entity {
 		setDefaultValues();
 		
 		// For Collision Check
-		solidArea = new Rectangle(0, 4, 30, gp.tileSize-8); // x+16, y+16, 30, 30
+		solidArea = new Rectangle(0, 0, gp.tileSize-1, gp.tileSize-1); // x+16, y+16, 30, 30
 		
 		getplayerImage();
 	}
 	public void setDefaultValues() {
-		x = 1280;
-		y = 64;
+		// map01 -> (1280, 64)
+		// map02 -> (0, 640)
+		x = 0;
+		y = 640;
 		speed = 4;
 		direction="right";
 	}
@@ -80,9 +82,11 @@ public class Player extends Entity {
 					y += speed;
 					break;
 				case "left":
+					// 2 cases: ladder-> brick or brick->ladder
 					x -= speed;
 					break;
 				case "right":
+					// 2 cases: ladder-> brick or brick->ladder
 					x += speed;
 					break;
 				}
