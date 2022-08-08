@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
+//import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
@@ -84,19 +85,19 @@ public class TileManager {
 //			System.out.println(directory.getAbsolutePath());
 //			
 			tile[0] = new Tile();
-			tile[0].image = ImageIO.read(getClass().getResourceAsStream("black_tile.jpg"));
+			tile[0].image = ImageIO.read(getClass().getResourceAsStream("empty_tile.png"));
 			tile[0].collision = true;
 //			tile[0].image = ImageIO.read(new File("./res/tiles/brick.jpg"));
 			
 			tile[1] = new Tile();
-			tile[1].image = ImageIO.read(getClass().getResourceAsStream("black_tile.jpg"));
+			tile[1].image = ImageIO.read(getClass().getResourceAsStream("empty_tile.png"));
 			
 			tile[2] = new Tile();
 			tile[2].image = ImageIO.read(getClass().getResourceAsStream("brick.jpg"));
 			tile[2].collision = true;
 			
 			tile[3] = new Tile();
-			tile[3].image = ImageIO.read(getClass().getResourceAsStream("ladder_black.jpg"));
+			tile[3].image = ImageIO.read(getClass().getResourceAsStream("ladder.png"));
 			
 		}catch(IOException e)	{
 			e.printStackTrace();

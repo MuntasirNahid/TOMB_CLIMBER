@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -35,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	KeyHandler keyH= new KeyHandler();
 	// Collision Checker
 	public CollisionChecker cChecker = new CollisionChecker(this);
+	// Background
+//	public BackGround background = new BackGround(this);
 	
 	Thread gameThread;
 	
@@ -44,8 +46,9 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	
 	
 	public GamePanel() {
+        
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//set the size of this class(JPanel
-		this.setBackground(Color.black);
+//		this.setBackground(Color.BLACK);
 		this.setDoubleBuffered(true);//if set to true,all the drawing from this component will be done in an offscreen painting buffer 
 		//enabling this can improve game's rendering performance
 		this.addKeyListener(keyH);
@@ -94,13 +97,17 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 		
 		super.paintComponent(g);
 		Graphics2D g2=(Graphics2D)g;//Graphics 2D have more functions than graphics
-	
+		
+		ImageIcon bg = new ImageIcon("E:\\sam\\2-1\\CSE-234\\OOP Project\\src\\main\\background.jpg");
+		
+		g2.drawImage(bg.getImage(), 0, 0, null);
 		
 		
 		tileH.draw(g2);
 		
 		player.draw(g2); 
-//		
+		
+		
 		g2.dispose();
 		
 		

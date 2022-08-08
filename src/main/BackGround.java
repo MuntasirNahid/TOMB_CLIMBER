@@ -13,14 +13,22 @@ import javax.swing.ImageIcon;
 public class BackGround {
 	
 	GamePanel gp;
+	BufferedImage bg;
 	
 	public BackGround(GamePanel gp) {
 		this.gp = gp;
+		
+		
 	}
 	
 	public void draw(Graphics2D g2) {
 		
+		try {
+			bg = ImageIO.read(getClass().getResourceAsStream("background.jpg"));
+			g2.drawImage(bg, 0, 0, gp.screenWidth, gp.screenHeight, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-//		g2.drawImage(image, 0, 0, 500, 500, null);
 	}
 }

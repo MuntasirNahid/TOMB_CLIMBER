@@ -13,6 +13,7 @@ public class Main{
 //		window.setResizable(false);
 //		window.setTitle("Tomb Climber");
 		
+
 		
 		GamePanel gamePanel= new GamePanel();
 		window.add(gamePanel);
@@ -20,6 +21,10 @@ public class Main{
 		
 //		window.setLocationRelativeTo(null);//windows gonna be displayed at the centre of the screen
 		window.setVisible(true);
+		
+		/// EXTRA
+		gamePanel.setupGame();
+		
 		gamePanel.startGameThread();
 		
 	}
