@@ -7,6 +7,12 @@ public class Main{
 	public static void main(String[]args) {
 		JFrame window=new JFrame();
 		
+		
+		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		window.setUndecorated(true);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setTitle("TOMB CLIMBER");

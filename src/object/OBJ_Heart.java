@@ -1,16 +1,28 @@
 package object;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import main.GamePanel;
+//import java.io.IOException;
+//
+//import javax.imageio.ImageIO;
 
-public class OBJ_Heart extends SuperObject{
-	GamePanel gp; 
+import entity.Entity;
+import main.GamePanel;
+import main.UtilityTool;
+
+public class OBJ_Heart extends Entity{
+
 	public OBJ_Heart(GamePanel gp) {
-		this.gp=gp;
+		super(gp);
 		name="Heart";
+//		image=setup("/object/heart_full");
+//		image2=setup("/object/heart_half");
+//		image3=setup("/object/heart_empty");
+		UtilityTool uTool=new UtilityTool();
+//		BufferedImage image=null;
 		
 		try {
 			image=ImageIO.read(getClass().getResourceAsStream("/object/heart_full.png"));
@@ -21,6 +33,6 @@ public class OBJ_Heart extends SuperObject{
 			image3=uTool.scaleImage(image3,gp.tileSize,gp.tileSize);
 		}catch(IOException e) {
 			e.printStackTrace();
-		}
+			}
 	}
 }

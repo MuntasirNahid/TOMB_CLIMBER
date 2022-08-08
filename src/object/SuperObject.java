@@ -1,33 +1,30 @@
 package object;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.GamePanel;
-import main.UtilityTool;
 
 public class SuperObject {
 
-	public BufferedImage image,image2,image3;
+	public BufferedImage image;
 	public String name;
 	public boolean collision=false;
-	//public int worldX,worldY;
-	public int x=0;
-	public int y=0;
-	
-	
-	//may have to change this value
-	public Rectangle solidArea=new Rectangle(0,0,100,100);
-	public int solidAreaDefaultX=0;
-	public int solidAreaDefaultY=0;
-	
-	UtilityTool uTool=new UtilityTool();
-	
-	
-	public void draw(Graphics2D g2,GamePanel gp) {
-		g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+	public int x,y;
 
+	public void draw(Graphics2D g2, GamePanel gp) {
+		
+		int screenX= x - gp.player.x + gp.player.screenX;
+		int screenY= y - gp.player.y + gp.player.screenY;
+		
+		if(x + gp.tileSize > gp.player.x - gp.player.screenX &&
+		   x - gp.tileSize < gp.player.x + gp.player.screenX &&
+		   y + gp.tileSize > gp.player.y - gp.player.screenY &&
+		   y - gp.tileSize < gp.player.y + gp.player.screenY) {
+			g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize,null);			
+
+		}
+		
 	}
-	
+
 }

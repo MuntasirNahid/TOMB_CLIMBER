@@ -1,42 +1,76 @@
 package object;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+//import java.io.IOException;
+//
+//import javax.imageio.ImageIO;
+
+import entity.Entity;
 import main.GamePanel;
-
-
-//This one was done for collision
-
+import main.UtilityTool;
+//
 public class OBJ_Coin extends SuperObject{
-	public OBJ_Coin() {
-		name="Coin";
+
+	public OBJ_Coin(GamePanel gp) {
+	
+//		name="Coin";
+//		down1=setup("/object/coin");
+//		collision=true;
+		
+		
+		UtilityTool uTool=new UtilityTool();
+		BufferedImage image=null;
+		
 		try {
 			image=ImageIO.read(getClass().getResourceAsStream("/object/coin.png"));
+			image=uTool.scaleImage(image,gp.tileSize,gp.tileSize);
 		}catch(IOException e) {
 			e.printStackTrace();
-		}	
+		}
 		collision=true;
-	}
-
-	
-}
-
-//when implementing Heart This was done:
-
-//
-//public class OBJ_Coin extends SuperObject{
-//	GamePanel gp;
-//	public OBJ_Coin(GamePanel gp) {
-//		this.gp=gp;
-//		name="Coin";
-//		
+		
 //		try {
 //			image=ImageIO.read(getClass().getResourceAsStream("/object/coin.png"));
-//			//uTool.scaleImage(image,gp.tileSize,gp.tileSize);
+//			uTool.scaleImage(image,gp.tileSize,gp.tileSize);
 //		}catch(IOException e) {
 //			e.printStackTrace();
 //		}
+	}
+
+
+}
+
+
+//
+//public class OBJ_Coin extends Entity{
+//
+//	public OBJ_Coin(GamePanel gp) {
+//		super(gp);
+//		name="Coin";
+////		down1=setup("/object/coin");
+////		collision=true;
+////		
+//		
+//		UtilityTool uTool=new UtilityTool();
+//		BufferedImage image=null;
+//		
+//		try {
+//			image=ImageIO.read(getClass().getResourceAsStream("/object/coin.png"));
+//			image=uTool.scaleImage(image,gp.tileSize,gp.tileSize);
+//		}catch(IOException e) {
+//			e.printStackTrace();
+//		}
+//		collision=true;
+//		
+////		try {
+////			image=ImageIO.read(getClass().getResourceAsStream("/object/coin.png"));
+////			uTool.scaleImage(image,gp.tileSize,gp.tileSize);
+////		}catch(IOException e) {
+////			e.printStackTrace();
+////		}
 //	}
 //}
