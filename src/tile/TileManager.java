@@ -1,5 +1,6 @@
 package tile;
 
+
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,11 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
+//import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
-import main.UtilityTool;
 
 
 public class TileManager {
@@ -32,29 +33,12 @@ public class TileManager {
 		getTileImage();
 	}
 	
-	//CREATING FOR UTILITY TOOL CLASS
-		
-//	public void setup(int index,String imagepath,boolean collision) {
-//		UtilityTool uTool=new UtilityTool();
-//		try {
-//			tile[index]=new Tile();
-//			//changed something in this line
-//			tile[index].image=ImageIO.read(getClass().getResourceAsStream( imagepath +".jpg"));
-//			tile[index].image=uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
-//			tile[index].collision=collision;
-//			
-//		}catch(IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	
 	public void loadMap() {
 		
 		try {
 			
 			
-			InputStream is = getClass().getResourceAsStream("map01.txt");
+			InputStream is = getClass().getResourceAsStream("map03.txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			
 //			File file = new File("E:\\sam\\2-1\\CSE-234\\OOP Project\\res\\maps\\map01.txt");
@@ -97,31 +81,26 @@ public class TileManager {
 		
 		try	{
 			
-	//	File directory = new File(" ");
-	//	System.out.println(directory.getAbsolutePath());
-			
-//			setup(0,"black_tile",true);
-//			setup(0,"black_tile",true);
-//			setup(0,"brick",true);
-//			setup(0,"ladder_black",false);
+//			File directory = new File(" ");
+//			System.out.println(directory.getAbsolutePath());
 //			
 			tile[0] = new Tile();
-			tile[0].image = ImageIO.read(getClass().getResourceAsStream("black_tile.jpg"));
+			tile[0].image = ImageIO.read(getClass().getResourceAsStream("empty_tile.png"));
 			tile[0].collision = true;
 //			tile[0].image = ImageIO.read(new File("./res/tiles/brick.jpg"));
 			
 			tile[1] = new Tile();
-			tile[1].image = ImageIO.read(getClass().getResourceAsStream("black_tile.jpg"));
+			tile[1].image = ImageIO.read(getClass().getResourceAsStream("empty_tile.png"));
 			
 			tile[2] = new Tile();
 			tile[2].image = ImageIO.read(getClass().getResourceAsStream("brick.jpg"));
 			tile[2].collision = true;
 			
 			tile[3] = new Tile();
-			tile[3].image = ImageIO.read(getClass().getResourceAsStream("ladder_black.jpg"));
+			tile[3].image = ImageIO.read(getClass().getResourceAsStream("ladder.png"));
 			
 		}catch(IOException e)	{
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	

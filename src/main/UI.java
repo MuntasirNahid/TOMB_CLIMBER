@@ -17,13 +17,13 @@ public class UI {
 	public int commandNum=0;
 	public int titleScreenState=0;//0: the first screen , 1: second screen
 	
-	BufferedImage heart_full,heart_half,heart_blank;
+	BufferedImage heart_full, heart_half, heart_blank;
 	 
 	public UI(GamePanel gp) {
 		this.gp=gp;
 		
 		//CREATE HUD OBJECT
-		Entity heart=new OBJ_Heart(gp);
+		Entity heart= new OBJ_Heart(gp);
 		heart_full=heart.image;
 		heart_half=heart.image2;
 		heart_blank=heart.image3;
@@ -34,7 +34,6 @@ public class UI {
 		this.g2=g2;
 		
 		//TITLE STATE
-	
 		if(gp.gameState==gp.titleState) {
 			drawTitleScreen();
 		}
@@ -45,13 +44,22 @@ public class UI {
 		}
 		
 		//--------------------------------------------
+<<<<<<< HEAD
+		//GAME OVER STATE
+=======
 		//GAME OVER state
+>>>>>>> 56934bf739245fbc058e82ca4d5c8221436f65c6
 		if(gp.gameState==gp.gameOverState) {
 			
 			drawGameOverScreen();
 		}
+<<<<<<< HEAD
+	}
+	
+=======
 		
 	}
+>>>>>>> 56934bf739245fbc058e82ca4d5c8221436f65c6
 	public void drawGameOverScreen() {
 		//g2.setColor(Color.white);
 		g2.setColor(new Color(0,0,0,150));//it will make screen half transparent to feel that game is over
@@ -62,6 +70,19 @@ public class UI {
 		String text;
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
 		
+<<<<<<< HEAD
+		text = "YOU  LOSE!";
+		//SHADOW
+		g2.setColor(Color.black);
+		x = getXforCenteredText(text);
+		y = gp.tileSize*4;
+		g2.drawString(text, x, y);
+		
+		//MAIN
+		g2.setColor(Color.white);
+		g2.drawString(text, x-4, y-4);
+		
+=======
 		text = "GAME OVER";
 		//SHADOW
 		g2.setColor(Color.white);
@@ -73,6 +94,7 @@ public class UI {
 		g2.setColor(Color.white);
 		g2.drawString(text, x-4, y-4);
 		
+>>>>>>> 56934bf739245fbc058e82ca4d5c8221436f65c6
 		//RETRY
 		g2.setFont(g2.getFont().deriveFont(50f));
 		text = "RETRY";
@@ -84,15 +106,40 @@ public class UI {
 		}
 		
 		//BACK TO THE TITLE SCREEN
+<<<<<<< HEAD
+		text = "BACK TO MAIN MENU !";
+		x = getXforCenteredText(text);
+		y += 65;
+	g2.drawString(text,x,y);
+=======
 		text = "QUIT!";
 		x = getXforCenteredText(text);
 		y += 55;
 		g2.drawString(text,x,y);
+>>>>>>> 56934bf739245fbc058e82ca4d5c8221436f65c6
 		if(commandNum==1) {
 			g2.drawString(">", x-40, y);
 		}
 	}
 	
+<<<<<<< HEAD
+	public void drawTitleScreen() {
+		
+		if(titleScreenState == 0) {
+			//background Color:
+			g2.setColor(new Color(0,0,0));//RGB Number
+			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+			
+			//TITLE NAME
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
+			String text="TOMB CLIMBER";
+			int x=getXforCenteredText(text);
+			int y=gp.tileSize*3;
+			
+			//TEXT SHADOW:
+			g2.setColor(Color.gray);
+			g2.drawString(text, x+4, y+4);
+=======
 	
 	public void drawTitleScreen() {
 		if(titleScreenState==0) {
@@ -196,46 +243,140 @@ public class UI {
 			
 			
 		}
+>>>>>>> 56934bf739245fbc058e82ca4d5c8221436f65c6
 		
+			
+			//MAIN COLOR:
+			g2.setColor(Color.white);
+			g2.drawString(text,x,y);
+			
+			//Game Logo Image
+			x=gp.screenWidth/2-(gp.tileSize*2)/2;//place the character at the center
+			y+=gp.tileSize;
+			g2.drawImage(gp.player.down1, x, y,gp.tileSize*2,gp.tileSize*2,null);
+			
+			//MENU
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
+			
+			text = "NEW GAME";
+			x=getXforCenteredText(text);
+			y+=gp.tileSize*3.5;
+			g2.drawString(text,x,y);
+			if(commandNum==0) {
+				g2.drawString(">", x-gp.tileSize, y);
+				//if we want to use image icon instead of this ">" we can use drawImage method
+				
+			}
+			
+			text = "ABOUT";
+			x = getXforCenteredText(text);
+			y += gp.tileSize;
+			g2.drawString(text,x,y);
+			if(commandNum==1) {
+				g2.drawString(">", x-gp.tileSize, y);
+			}
+			
+			text ="QUIT";
+			x =getXforCenteredText(text);
+			y += gp.tileSize;
+			g2.drawString(text,x,y);
+			if(commandNum == 2) {
+				g2.drawString(">", x-gp.tileSize, y);
+			}
+		}
+		else if(titleScreenState == 1) {
+			
+			//ABOUT SECOND SCREEN
+			
+			//g2.setColor(Color.GRAY);
+			g2.setColor(new Color(0,0,153));//RGB Number
+		//	g2.setFont(g2.getFont().deriveFont(42F));
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD,42f));
+			String text = "INFO:";
+			
+			int x = getXforCenteredText(text);
+			int y = gp.tileSize;
+			g2.drawString(text, x, y);
+			if(commandNum == 0) {
+				g2.drawString(">", x-gp.tileSize, y);
+			}
+			text="This game was created as a part of our OOP project(Project 234)";
+			 x = getXforCenteredText(text);
+			 y = gp.tileSize*2;
+			g2.drawString(text, x, y);
+			
+			text = "Genre: Metroidvania  / Leveller ";
+			 x = getXforCenteredText(text);
+			 y = gp.tileSize*3;
+			g2.drawString(text, x, y);
+			
+			text = "Created-By : Team Double-N (Nazif and Nahid)";
+			 x = getXforCenteredText(text);
+			 y = gp.tileSize*4;
+			g2.drawString(text, x, y);
+			
+			text = "Enjoy The Game!";
+			 x = getXforCenteredText(text);
+			 y = gp.tileSize*5;
+			g2.drawString(text, x, y);
+			
+			text = "BACK";
+			 x = getXforCenteredText(text);
+			 y = gp.tileSize*8;
+			g2.drawString(text, x, y);
+			
+			if(commandNum == 1) {
+				g2.drawString(">", x-gp.tileSize, y);
+			}
+			
+		}
 		
 		
 		
 	}
 	
+//	public void drawCoinCount() {
+//		int x=0;
+//		int y=0;
+//		
+//		g2.drawImage(heart_blank,x,y,10,10,null);
+//	
+//	}
 	
 	public void drawPlayerLife() {
 
 		
-		int x=gp.tileSize/2;
-		int y=gp.tileSize/2;
-		int i=0;
+		int x = gp.tileSize*19+24;
+		int y = 0;
+		int i = 0;
 		
 		//DRAW BLANK HEART
-		while(i<gp.player.maxLife/2) {
-			g2.drawImage(heart_full,x,y,null);
+		while(i < gp.player.maxLife) {
+			g2.drawImage(heart_blank, x, y, 40, 40, null);
 			i++;
-			x+=gp.tileSize;
+			x += 42;
 		}
-//		//RESET
-//		 x=gp.tileSize/2;
-//		 y=gp.tileSize/2;
-//		 i=0;
-//		 
-//		 //DRAW CURRENT LIFE
-//		 while(i<gp.player.life) {
-//			 g2.drawImage(heart_full, x, y,null);
+//			RESET
+		 x = gp.tileSize*19+24;
+		 y = 0;
+		 i = 0;
+
+		 //		 //DRAW CURRENT LIFE
+		 
+		 while( i < gp.player.life ) {
+//			 g2.drawImage(heart_half, x, y, 40, 40, null);
 //			 i++;
-////			 if(i<gp.player.life) {
-////				 g2.drawImage(heart_half,x,y,null);
-////			 }
-//			 i++;
-//			 x+=gp.tileSize;
-//		 }
-//		g2.drawImage(heart_full, x, y, null);
+//			 if(i<gp.player.life) {
+				 g2.drawImage(heart_full, x, y, 40, 40, null);
+//			 }
+			 i++;
+			 x += 42;
+		 }
 	}
 
 
 	public int getXforCenteredText(String text) {
+		
 		int length=(int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
 		int x=gp.screenWidth/2-length/2;
 		return x;
