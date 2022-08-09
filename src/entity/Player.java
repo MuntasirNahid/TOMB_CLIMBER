@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,9 @@ public class Player extends Entity {
 //	
 	GamePanel gp;
 	KeyHandler keyH;
+	public int hasCoin = 0;
+	
+	public boolean isFalling = false;
 	
 
 	public  Player(GamePanel gp, KeyHandler keyH) {
@@ -23,7 +27,7 @@ public class Player extends Entity {
 		setDefaultValues();
 		
 		// For Collision Check
-		solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize); // x+16, y+16, 30, 30
+//		solidArea = new Rectangle(x, y, gp.tileSize, gp.tileSize); // x+16, y+16, 30, 30
 		
 		getplayerImage();
 	}
@@ -33,7 +37,9 @@ public class Player extends Entity {
 		x = 0;
 		y = 640;
 		speed = 4;
-		direction="right";
+		direction = "right";
+		maxLife = 3;
+		life = 3;
 	}
 	public void getplayerImage() {
 		try {
@@ -54,24 +60,35 @@ public class Player extends Entity {
 		}
 	}
 	public void update() {
-		if(keyH.upPressed==true ||keyH.downPressed==true || keyH.leftPressed==true ||keyH.rightPressed==true  )//without pressing key player will not move
-		{
+		
+		
+		/// Fall handling
+		
+//		if(isFalling)	{
+//			y += 1;
+////			System.out.println("Should be falling");
+//		}
+//		gp.cChecker.checkTile(this, true);
+		
+		
+		/// Player's collision with tiles
+		
+		if(keyH.upPressed==true || keyH.downPressed==true || keyH.leftPressed==true || keyH.rightPressed == true  )	{
+			
 			String prevDirection = direction;
 			
-			if(keyH.upPressed==true) {
+			if(keyH.upPressed == true) {
 				direction="up";
-			}else if(keyH.downPressed==true) {
+			}else if(keyH.downPressed == true) {
 				direction="down";
-			}else if(keyH.leftPressed==true) {
+			}else if(keyH.leftPressed == true) {
 				direction="left";
-			}else if(keyH.rightPressed   ==true) {
+			}else if(keyH.rightPressed == true) {
 				direction="right";
 			}
 			
-			
-			
 			collisionOn = false;
-			gp.cChecker.checkTile(this);
+			gp.cChecker.checkTile(this, false);
 			
 			if(collisionOn == false) {
 				switch(direction) {
@@ -82,11 +99,9 @@ public class Player extends Entity {
 					y += speed;
 					break;
 				case "left":
-					// 3 cases: ladder-> brick, brick->ladder, ladder->ladder
 					x -= speed;
 					break;
 				case "right":
-					// 3 cases: ladder-> brick, brick->ladder, ladder->ladder
 					x += speed;
 					break;
 				}
@@ -96,17 +111,55 @@ public class Player extends Entity {
 			
 			spriteCounter++;//it increases when we press one of these keys
 			/// I'm HERE
-			if(spriteCounter>7) //Image is updated every 7 frames(60 FPS)
+			if(spriteCounter > 7 ) //Image is updated every 7 frames(60 FPS)
 			{
-				if(spriteNum==1) {
-					spriteNum=2;
+				if(spriteNum == 1) {
+					spriteNum = 2;
 				}
-				else if(spriteNum==2) {
-					spriteNum=1;
+				else if(spriteNum == 2) {
+					spriteNum = 1;
 				}
-				spriteCounter=0;
+				spriteCounter = 0;
 			}
 		}
+		
+		/// Player's collision with monster
+		
+		if(invincible==true) {
+			invincibleCounter++;
+			if(invincibleCounter>90) {
+				invincible=false;
+				invincibleCounter=0;
+			}
+		}
+		
+		int index;
+		if(invincible == false) {
+			index = gp.cChecker.checkEntity(this, gp.monster);
+//			System.out.println("Index == "+index);
+			if(index != -1) {
+				System.out.println("Collision with monster with index == " + index);
+				life--;
+				invincible = true;
+			}
+		}
+
+		
+		//For game Over State
+		if(life <= 0) {
+			gp.gameState=gp.gameOverState;
+		}
+		
+		/// Player's collision with coin
+		
+		index = gp.cChecker.checkCoin(this, gp.obj);
+//		System.out.println("Index == "+index);
+		if(index != -1) {
+			System.out.println("Collision with coin with index == " + index);
+			hasCoin++;
+			gp.obj[index] = null;
+		}
+//		System.out.println("COin == " + hasCoin);
 	}
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
@@ -146,7 +199,13 @@ public class Player extends Entity {
 		
 			
 		}
-		g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+			if(invincible==true) { 
+				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6f));//
+			} 
+			g2.drawImage(image, x, y, gp.tileSize,gp.tileSize,null); 
+	
+	//Reset Alpha ////
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));//
 
 	}
 }

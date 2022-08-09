@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import object.SuperObject;
 
 public class CollisionChecker {
 	GamePanel gp;
@@ -10,13 +11,19 @@ public class CollisionChecker {
 		this.gp = gp;
 	}
 	
-	public void checkTile(Entity entity) {
+	public void checkTile(Entity entity, boolean checkForFall) {
 		
 		
-		int entityLeftX =  entity.x + entity.solidArea.x;
-		int entityRightX = entity.x + entity.solidArea.x + entity.solidArea.width;
-		int entityTopY = entity.y + entity.solidArea.y;
-		int entityBottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
+//		int entityLeftX =  entity.x + entity.solidArea.x;
+//		int entityRightX = entity.x + entity.solidArea.x + entity.solidArea.width;
+//		int entityTopY = entity.y + entity.solidArea.y;
+//		int entityBottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
+//	
+		int entityLeftX =  entity.x;
+		int entityRightX = entity.x + gp.tileSize;
+		int entityTopY = entity.y;
+		int entityBottomY = entity.y + gp.tileSize;
+	
 		
 		int entityLeftCol = entityLeftX/gp.tileSize; // == entityCurCol
 		int entityRightCol = entityRightX/gp.tileSize;
@@ -27,7 +34,28 @@ public class CollisionChecker {
 		
 		int tileNum1, tileNum2;
 		
+//		if(checkForFall) {
+//
+//			if(entity.isFalling)	{
+//				
+//				entityBottomRow = (entityBottomRow*gp.tileSize + entity.speed) / gp.tileSize; 
+//				tileNum1 = gp.tileH.mapTileNum[entityLeftCol][entityBottomRow];
+//				tileNum2 = gp.tileH.mapTileNum[entityRightCol][entityBottomRow];
+////				System.out.println(tileNum1+" "+tileNum2);
+////				if(tileNum1 == 2 || tileNum1 == 3 || tileNum2 == 2 || tileNum2 == 3)
+////					entity.isFalling = false;
+//				System.out.println("TileNum2 == "+tileNum2);
+//				if(tileNum2 == 2 || tileNum2 == 3)
+//					entity.isFalling = false;
+//				
+//			}
+//			return;
+//		}
+		
+
+		
 		switch(entity.direction) {
+			
 		case "up":
 			
 			if(entityTopY - entity.speed < 0)
@@ -38,7 +66,7 @@ public class CollisionChecker {
 				tileNum2 = gp.tileH.mapTileNum[entityRightCol][entityTopRow];
 				
 				entity.collisionOn = true;
-				if( (tileNum1 == 3 && entityLeftX - entityLeftCol*gp.tileSize <= 20) || (tileNum2 == 3 && (entityRightCol+1)*gp.tileSize - entityRightX <= 20) )
+				if( (tileNum1 == 3 && entityLeftX - entityLeftCol*gp.tileSize <= 24) || (tileNum2 == 3 && (entityRightCol+1)*gp.tileSize - entityRightX <= 24) )
 				{
 						entity.collisionOn = false;
 						if(tileNum1 == 3)
@@ -51,10 +79,6 @@ public class CollisionChecker {
 			}
 			break;
 		case "down":
-			
-//			System.out.println("entityLeftCol == "+entityLeftCol);
-//			System.out.println("entityRightCol == "+entityRightCol);
-//			System.out.println("entityBottomRow == "+entityBottomRow);
 			if(entityBottomY + entity.speed >= gp.screenHeight)
 				entity.collisionOn = true;
 			else {
@@ -62,7 +86,7 @@ public class CollisionChecker {
 				tileNum1 = gp.tileH.mapTileNum[entityLeftCol][entityBottomRow];
 				tileNum2 = gp.tileH.mapTileNum[entityRightCol][entityBottomRow];
 				entity.collisionOn = true;
-				if( (tileNum1 == 3 && entityLeftX - entityLeftCol*gp.tileSize <= 20) || (tileNum2 == 3 && (entityRightCol+1)*gp.tileSize - entityRightX <= 20) )
+				if( (tileNum1 == 3 && entityLeftX - entityLeftCol*gp.tileSize <= 24) || (tileNum2 == 3 && (entityRightCol+1)*gp.tileSize - entityRightX <= 24) )
 				{
 						entity.collisionOn = false;
 						if(tileNum1 == 3)
@@ -75,11 +99,6 @@ public class CollisionChecker {
 			}
 			break;
 		case "left":
-			
-
-//			System.out.println("left col == "+entityLeftCol);
-//			System.out.println("top row == "+entityTopRow);
-//			System.out.println("bottom row == "+entityBottomRow);
 			if(entityLeftX - entity.speed < 0)
 				entity.collisionOn = true;
 			else {
@@ -87,25 +106,30 @@ public class CollisionChecker {
 				tileNum1 = gp.tileH.mapTileNum[entityLeftCol][entityTopRow];
 				tileNum2 = gp.tileH.mapTileNum[entityLeftCol][entityBottomRow];
 //				System.out.println(tileNum1+" "+tileNum2);
-//				if(gp.tileH.tile[tileNum1].collision == true || gp.tileH.tile[tileNum2].collision == true)
-//					entity.collisionOn = true;
-//				entity.collisionOn = true;
-				if( tileNum1 != 0 )	{
-					if( (entityTopRow+1)*gp.tileSize - entityBottomY <= 12) {
+				if(entity.up1 != null) { // player
+					System.out.println("for left "+tileNum1+" "+tileNum2);
+				}
+				entity.collisionOn = true;
+				if( tileNum1 == 1 || tileNum1 == 3 )	{
+					if( entityBottomY - (entityTopRow+1)*gp.tileSize <= 20) {
 						entity.collisionOn = false;
-//						entity.y = (entityBottomRow-1)*gp.tileSize;
+						entity.y = (entityTopRow)*gp.tileSize;
 					}
 				}
-				else {
-					
+				else if(tileNum2 == 1 || tileNum2 == 3)	{
+					if( (entityBottomRow+1)*gp.tileSize - entityBottomY <= 20) {
+						entity.collisionOn = false;
+						entity.y = entityBottomRow*gp.tileSize;
+					}
+				}
+				else // Fall Mechanics
+				{
+					entity.collisionOn = true;
+//					entity.isFalling = true;
 				}
 			}
 			break;
 		case "right":
-			
-//			System.out.println("right col == "+entityRightCol);
-//			System.out.println("top row == "+entityTopRow);
-//			System.out.println("bottom row == "+entityBottomRow);
 			
 			if(entity.x + gp.tileSize + entity.speed >= 1366) // my screen width(1366)
 				entity.collisionOn = true;
@@ -113,28 +137,46 @@ public class CollisionChecker {
 				entityRightCol = ( entityRightX + entity.speed) / gp.tileSize; 
 				tileNum1 = gp.tileH.mapTileNum[entityRightCol][entityTopRow];
 				tileNum2 = gp.tileH.mapTileNum[entityRightCol][entityBottomRow];
-//				System.out.println("for right "+tileNum1+" "+tileNum2);
-				System.out.println(entityTopRow+" "+entityBottomRow);
-//				if(gp.tileH.tile[tileNum1].collision == true || gp.tileH.tile[tileNum2].collision == true)
-//					entity.collisionOn = true;
+				if(entity.up1 != null) { // player
+					System.out.println("for right "+tileNum1+" "+tileNum2);
+				}
+				
+
 				entity.collisionOn = true;
 				if( tileNum1 == 1 || tileNum1 == 3 )	{
-					if( (entityTopRow+1)*gp.tileSize - entityBottomY <= 12) {
+					if( entityBottomY - (entityTopRow+1)*gp.tileSize <= 20) {
 						entity.collisionOn = false;
-//						entity.y = (entityBottomRow-1)*gp.tileSize;
+						entity.y = (entityTopRow)*gp.tileSize;
 					}
 				}
-				else if(tileNum2 != 0)	{
-					
+				else if(tileNum2 == 1 || tileNum2 == 3)	{
+					if( (entityBottomRow+1)*gp.tileSize - entityBottomY <= 20) {
+						entity.collisionOn = false;
+						entity.y = entityBottomRow*gp.tileSize;
+					}
 				}
-				else
+				else // Fall Mechanics
 				{
+					entity.collisionOn = true;
+//					entity.isFalling = true;
+//					System.out.println("Start falling");
 					
+//					tileNum1 = gp.tileH.mapTileNum[entityLeftCol][entityBottomRow];
+//					tileNum2 = gp.tileH.mapTileNum[entityRightCol][entityBottomRow];
+//					
+//					while(tileNum1 != 2 && tileNum1 != 3 && tileNum2 != 2 && tileNum2 != 3)
+//					{
+//						entity.y += entity.speed;
+//						entityBottomRow = (entity.y + gp.tileSize) / gp.tileSize;
+//						tileNum1 = gp.tileH.mapTileNum[entityLeftCol][entityBottomRow];
+//						tileNum2 = gp.tileH.mapTileNum[entityRightCol][entityBottomRow];
+//						
+//					}
+//					System.out.println("entityBottomRow == " + entityBottomRow);
 				}
 					
 			}
 			break;
-//		
 			
 		}
 		
@@ -145,99 +187,42 @@ public class CollisionChecker {
 	
     /// OBJECT COLLISION CHECK:
 
-//public int checkObject(Entity entity, boolean player)
-//    {
-//        int index = 999;
-//        for (int i = 0; i < gp.obj.length; i++)
-//        {
-//            if (gp.obj[i] != null)
-//            {
-//
-//                // get entity's solid area position
-//                entity.solidArea.x = entity.x + entity.solidArea.x;
-//                entity.solidArea.y = entity.y + entity.solidArea.y;
-//
-//                // get the object's solid area position
-//
-////                gp.obj[i].solidArea.x = gp.obj[i].x + gp.obj[i].solidArea.x;
-////                gp.obj[i].solidArea.y = gp.obj[i].y + gp.obj[i].solidArea.y;
-//
-//                switch (entity.direction)
-//                {
-//
-//                case "up":
-//                    entity.solidArea.y -= entity.speed;break;
-//                case "down":
-//                    entity.solidArea.y += entity.speed; break;
-//                case "left":
-//                    entity.solidArea.x -= entity.speed;break;
-//                case "right":
-//                    entity.solidArea.x += entity.speed;break;
-//                }
-//                
-//                if (entity.solidArea.intersects(gp.obj[i].solidArea))
-//                 {
-//                    if (gp.obj[i].collision == true)
-//                    {
-//                        entity.collisionOn = true;
-//                    }
-//                    // to check if they are NPC or player
-//                    if (player == true)
-//                    {
-//                        index = i;
-//                    }
-//                }
-//                 entity.solidArea.x = entity.solidAreaDefaultX;
-//                entity.solidArea.y = entity.solidAreaDefaultY;
-//                gp.obj[i].solidArea.x = gp.obj[i].solidAreaDefaultX;
-//                gp.obj[i].solidArea.y = gp.obj[i].solidAreaDefaultY;
-//            }
-//        }
-//        return index;
-//    }
+	public int checkCoin(Entity entity, SuperObject[] obj)	{
+		int index = -1;
+	    for (int i = 0; i < obj.length && index == -1; i++)
+	    {
+	        if (obj[i] != null)
+	        {
+	            
+	            if ( ((entity.x >= obj[i].x && entity.x <= obj[i].x + gp.tileSize) && (entity.y >= obj[i].y && entity.y <= obj[i].y + gp.tileSize)) || 
+	            		((entity.x + gp.tileSize >= obj[i].x && entity.x + gp.tileSize <= obj[i].x + gp.tileSize) && 
+	            		(entity.y + gp.tileSize >= obj[i].y && entity.y + gp.tileSize <= obj[i].y + gp.tileSize)) )
+	            {
+	                    index = i;
+	            }
+	        }
+	    }
+	    return index;	
+    }
 
-//	public int checkEntity(Entity entity,Entity[] target) {
-//		int index = 999;
-//	    for (int i = 0; i < target.length; i++)
-//	    {
-//	        if (target[i] != null)
-//	        {
-//	
-//	            // get entity's solid area position
-//	            entity.solidArea.x = entity.x + entity.solidArea.x;
-//	            entity.solidArea.y = entity.y + entity.solidArea.y;
-//	
-//	            // get the object's solid area position
-//	//
-//	//          target[i].solidArea.x = gp.obj[i].x + gp.obj[i].solidArea.x;
-//	//          target[i].solidArea.y = gp.obj[i].y + gp.obj[i].solidArea.y;
-//	
-//	            switch (entity.direction)
-//	            {
-//	            case "up":
-//	                entity.solidArea.y -= entity.speed;break;
-//	            case "down":
-//	                entity.solidArea.y += entity.speed;break;
-//	            case "left":
-//	                entity.solidArea.x -= entity.speed;break;
-//	            case "right":
-//	                entity.solidArea.x += entity.speed;break;
-//	            }
-//	            if (entity.solidArea.intersects(target[i].solidArea))
-//	            {
-//	            	if(target[i]!=entity) {
-//	            		entity.collision = true;
-//	                    index = i;
-//	            	}           	              
-//	            }
-//	            entity.solidArea.x = entity.solidAreaDefaultX;
-//	            entity.solidArea.y = entity.solidAreaDefaultY;
-//	            target[i].solidArea.x = target[i].solidAreaDefaultX;
-//	            target[i].solidArea.y = target[i].solidAreaDefaultY;
-//	        }
-//	    }
-//	    return index;	
-//	}
+	public int checkEntity(Entity entity, Entity[] monster) {
+		int index = -1;
+	    for (int i = 0; i < monster.length && index == -1; i++)
+	    {
+	        if (monster[i] != null)
+	        {
+	            
+	            if ( ((entity.x >= monster[i].x && entity.x <= monster[i].x + gp.tileSize) && (entity.y >= monster[i].y && entity.y <= monster[i].y + gp.tileSize))
+	            		|| ((entity.x + gp.tileSize >= monster[i].x && entity.x + gp.tileSize <= monster[i].x + gp.tileSize) && 
+	            		(entity.y + gp.tileSize >= monster[i].y && entity.y + gp.tileSize <= monster[i].y + gp.tileSize)) )
+	            {
+	                    index = i;
+	            }
+	        }
+	    }
+	    return index;	
+	}
+	
 //	public boolean checkPlayer(Entity entity) {
 //		
 //		boolean contactPlayer=false;
