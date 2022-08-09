@@ -24,31 +24,85 @@ public class KeyHandler implements KeyListener{
 		//TITLE STATE
 		if(gp.gameState==gp.titleState) {
 			
-			if(code==KeyEvent.VK_W) {
+			if(gp.ui.titleScreenState==0) {
+				if(code==KeyEvent.VK_W) {
+					
+					gp.ui.commandNum--;
+					if(gp.ui.commandNum<0) {
+						gp.ui.commandNum=2;
+					}
+				}
+				if(code==KeyEvent.VK_S) {
+					gp.ui.commandNum++;
+					if(gp.ui.commandNum>2) {
+						gp.ui.commandNum=0;
+					}
+				}
+				if(code==KeyEvent.VK_ENTER) {
+					if(gp.ui.commandNum==0) {
+						gp.gameState=gp.playState;
+						//gp.playMusic(0);
+					}
+					if(gp.ui.commandNum==1) {
+						gp.ui.titleScreenState=1;
+					}
+					if(gp.ui.commandNum==2) {
+						System.exit(0);
+					}
 				
+			}
+	}
+			//FOR ABOUT SCREEN
+			
+			else if(gp.ui.titleScreenState==1) {
+				if(code==KeyEvent.VK_W) {
+					
+					gp.ui.commandNum--;
+					if(gp.ui.commandNum<0) {
+						gp.ui.commandNum=1;
+					}
+				}
+				if(code==KeyEvent.VK_S) {
+					gp.ui.commandNum++;
+					if(gp.ui.commandNum>1) {
+						gp.ui.commandNum=0;
+					}
+				}
+				if(code==KeyEvent.VK_ENTER) {}
+					if(gp.ui.commandNum==1) {
+						gp.ui.titleScreenState=0;
+					}
+							
+			}
+		}
+		
+		//FOR GAME OVER STATE
+		else if(gp.gameState == gp.gameOverState) {
+			if(code==KeyEvent.VK_W) {
 				gp.ui.commandNum--;
 				if(gp.ui.commandNum<0) {
-					gp.ui.commandNum=2;
+					gp.ui.commandNum=1;
 				}
+		//		gp.playSE(9);
 			}
 			if(code==KeyEvent.VK_S) {
 				gp.ui.commandNum++;
-				if(gp.ui.commandNum>2) {
+				if(gp.ui.commandNum>1) {
 					gp.ui.commandNum=0;
 				}
 			}
+			//Enter press at RETRY or QUIT
+			
 			if(code==KeyEvent.VK_ENTER) {
-				if(gp.ui.commandNum==0) {
-					gp.gameState=gp.playState;
-					//gp.playMusic(0);
-				}
-				if(gp.ui.commandNum==1) {
-					//add later
-				}
-				if(gp.ui.commandNum==2) {
-					System.exit(0);
-				}
+			if(gp.ui.commandNum==0) {
+				gp.gameState=gp.playState;
+				//gp.retry();
 			}
+			else if(gp.ui.commandNum==1) {
+				gp.gameState=gp.titleState;
+			}
+		}
+			
 		}
 		
 		//PLAY STATE
