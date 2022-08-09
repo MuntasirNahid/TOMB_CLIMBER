@@ -149,29 +149,49 @@ public class Player extends Entity {
 				invincibleCounter=0;
 			}
 		}
+		
+		
+		//---------------------------------------
+		
+		
+		//For game Over State
+		if(life<=0) {
+			gp.gameState=gp.gameOverState;
 		}
-//		if(keyH.upPressed==true) {
-//	y-=speed;	
-//		}
-//	else if(keyH.downPressed==true) {
-//		y+=speed;//pixels
-//		}
-//	else if(keyH.leftPressed==true) {
-//		x-=speed;
-//		}
-//	else if(keyH.rightPressed==true) {
-//		x+=speed;
-//		}
-////		
+		
+		}
+
+	//-------------------------------------------------
+	
+	///For RETRY
+	
+	public void Retry() {
+		x=0;
+		y=640;
+		speed=4;
+		direction="down";
+		
+		//PLAYER STATUS
+		maxLife=6;
+		life=maxLife;
+		
+	}
+	
+	//-----------------------------------------------------
 	
 	
 	public void pickUpObject(int index) {
 		if(index!=999) {
-//			String objectName=gp.obj[index].name;
+		String objectName=gp.obj[index].name;
 			hasCoin++;
-			gp.obj[index]=null;
+			gp.obj[index]=null;//this will make key disappear
+			
 		}
 	}
+	
+	//-------------------------------------------------------
+	
+	
 	
 	public void contactMonster(int i) {
 		if(i!=999) {
