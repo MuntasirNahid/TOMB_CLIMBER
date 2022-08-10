@@ -3,12 +3,9 @@ package tile;
 
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
 //import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -19,12 +16,14 @@ import main.GamePanel;
 public class TileManager {
 	
 	GamePanel gp;
+	int ind;
 	public Tile[] tile;
 	public int mapTileNum[][];
 	
-	public TileManager(GamePanel gp){
+	public TileManager(GamePanel gp, int ind){
 		
 		this.gp = gp;
+		this.ind = ind;
 		
 		tile = new Tile[4];
 		mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
@@ -36,9 +35,7 @@ public class TileManager {
 	public void loadMap() {
 		
 		try {
-			
-			
-			InputStream is = getClass().getResourceAsStream("map02.txt");
+			InputStream is = getClass().getResourceAsStream("map0"+Integer.toString(ind+1)+".txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			
 //			File file = new File("E:\\sam\\2-1\\CSE-234\\OOP Project\\res\\maps\\map01.txt");

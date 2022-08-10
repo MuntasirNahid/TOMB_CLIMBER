@@ -1,6 +1,5 @@
 package object;
 
-import java.awt.Graphics2D;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -11,7 +10,6 @@ import javax.imageio.ImageIO;
 
 import entity.Entity;
 import main.GamePanel;
-import main.UtilityTool;
 
 public class OBJ_Heart extends Entity{
 

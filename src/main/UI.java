@@ -14,19 +14,18 @@ public class UI {
 	Graphics2D g2;
 	//Font maruMonica,purisaB;
 	public boolean gameFinished=false;
-	public int commandNum=0;
-	public int titleScreenState=0;//0: the first screen , 1: second screen
+	public int commandNum = 0;
+	public int titleScreenState = 0;//0: the first screen , 1: second screen
 	
 	BufferedImage heart_full, heart_half, heart_blank;
 	 
 	public UI(GamePanel gp) {
 		this.gp=gp;
 		
-		//CREATE HUD OBJECT
 		Entity heart= new OBJ_Heart(gp);
-		heart_full=heart.image;
-		heart_half=heart.image2;
-		heart_blank=heart.image3;
+		heart_full = heart.image;
+		heart_half = heart.image2;
+		heart_blank = heart.image3;
 		
 		
 	}
@@ -34,21 +33,105 @@ public class UI {
 		this.g2=g2;
 		
 		//TITLE STATE
-		if(gp.gameState==gp.titleState) {
+		if(gp.gameState == gp.titleState) {
 			drawTitleScreen();
 		}
 		
 		//PLAY STATE
-		if(gp.gameState==gp.playState) {
+		if(gp.gameState == gp.playState) {
 			drawPlayerLife();
 		}
 		
 		//--------------------------------------------
 		//GAME OVER state
-//		if(gp.gameState==gp.gameOverState) {
-//			
-//			drawGameOverScreen();
-//		}
+		if(gp.gameState == gp.gameOverState) {
+			
+			drawGameOverScreen();
+		}
+		
+		// Pause State
+		if(gp.gameState == gp.pauseState) {
+			
+			drawPauseScreen();
+		}
+		
+		if(gp.gameState == gp.winState) {
+			
+			drawWinScreen();
+		}
+	}
+	
+	public void drawWinScreen() {
+		g2.setColor(new Color(0,0,0,150));
+		g2.fillRect(0, 0,gp.screenWidth,gp.screenHeight);
+		
+		int x;
+		int y;
+		String text;
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
+		
+		text = "CONGRATULATIONS!!!";
+		//SHADOW
+		g2.setColor(Color.black);
+		x = getXforCenteredText(text);
+		y = gp.tileSize*4;
+		g2.drawString(text, x, y);
+		
+		//MAIN
+		g2.setColor(Color.white);
+		g2.drawString(text, x-4, y-4);
+		
+		
+		g2.setFont(g2.getFont().deriveFont(50f));
+		text = "MAIN MENU";
+		x = getXforCenteredText(text);
+		y += gp.tileSize*4;
+		g2.drawString(text,x,y);
+		if(commandNum == 0) {
+			g2.drawString(">", x-40, y);
+		}
+		
+	}
+	
+	public void drawPauseScreen() {
+		
+		g2.setColor(new Color(0,0,0,150));
+		g2.fillRect(0, 0,gp.screenWidth,gp.screenHeight);
+		
+		int x;
+		int y;
+		String text;
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
+		
+		text = "GAME PAUSED";
+		//SHADOW
+		g2.setColor(Color.black);
+		x = getXforCenteredText(text);
+		y = gp.tileSize*4;
+		g2.drawString(text, x, y);
+		
+		//MAIN
+		g2.setColor(Color.white);
+		g2.drawString(text, x-4, y-4);
+		
+		
+		g2.setFont(g2.getFont().deriveFont(50f));
+		text = "CONTINUE";
+		x = getXforCenteredText(text);
+		y += gp.tileSize*4;
+		g2.drawString(text,x,y);
+		if(commandNum == 0) {
+			g2.drawString(">", x-40, y);
+		}
+		
+		text = "QUIT GAME";
+		x = getXforCenteredText(text);
+		y += 65;
+		g2.drawString(text,x,y);
+
+		if(commandNum==1) {
+			g2.drawString(">", x-40, y);
+		}
 	}
 	
 	public void drawGameOverScreen() {
@@ -61,9 +144,9 @@ public class UI {
 		String text;
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
 		
-		text = "GAME OVER";
+		text = "YOU  LOSE!";
 		//SHADOW
-		g2.setColor(Color.white);
+		g2.setColor(Color.black);
 		x = getXforCenteredText(text);
 		y = gp.tileSize*4;
 		g2.drawString(text, x, y);
@@ -72,21 +155,23 @@ public class UI {
 		g2.setColor(Color.white);
 		g2.drawString(text, x-4, y-4);
 		
+		
 		//RETRY
 		g2.setFont(g2.getFont().deriveFont(50f));
 		text = "RETRY";
 		x = getXforCenteredText(text);
 		y += gp.tileSize*4;
 		g2.drawString(text,x,y);
-		if(commandNum==0) {
+		if(commandNum == 0) {
 			g2.drawString(">", x-40, y);
 		}
 		
 		//BACK TO THE TITLE SCREEN
-		text = "QUIT!";
+		text = "MAIN MENU";
 		x = getXforCenteredText(text);
-		y += 55;
+		y += 65;
 		g2.drawString(text,x,y);
+
 		if(commandNum==1) {
 			g2.drawString(">", x-40, y);
 		}
@@ -94,7 +179,7 @@ public class UI {
 	
 	public void drawTitleScreen() {
 		
-		if(titleScreenState == 0) {
+		if(titleScreenState == 0) { // main menu
 			//background Color:
 			g2.setColor(new Color(0,0,0));//RGB Number
 			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -114,10 +199,10 @@ public class UI {
 			g2.setColor(Color.white);
 			g2.drawString(text,x,y);
 			
-			//Game Logo Image
-			x=gp.screenWidth/2-(gp.tileSize*2)/2;//place the character at the center
-			y+=gp.tileSize;
-			g2.drawImage(gp.player.down1, x, y,gp.tileSize*2,gp.tileSize*2,null);
+//			//Game Logo Image
+//			x=gp.screenWidth/2-(gp.tileSize*2)/2;//place the character at the center
+//			y+=gp.tileSize;
+//			g2.drawImage(gp.player.down1, x, y,gp.tileSize*2,gp.tileSize*2,null);
 			
 			//MENU
 			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
@@ -125,8 +210,8 @@ public class UI {
 			text = "NEW GAME";
 			x=getXforCenteredText(text);
 			y+=gp.tileSize*3.5;
-			g2.drawString(text,x,y);
-			if(commandNum==0) {
+			g2.drawString(text, x, y);
+			if(commandNum == 0) {
 				g2.drawString(">", x-gp.tileSize, y);
 				//if we want to use image icon instead of this ">" we can use drawImage method
 				
@@ -135,12 +220,12 @@ public class UI {
 			text = "ABOUT";
 			x = getXforCenteredText(text);
 			y += gp.tileSize;
-			g2.drawString(text,x,y);
-			if(commandNum==1) {
+			g2.drawString(text, x, y);
+			if(commandNum == 1 ) {
 				g2.drawString(">", x-gp.tileSize, y);
 			}
 			
-			text ="QUIT";
+			text ="EXIT GAME";
 			x =getXforCenteredText(text);
 			y += gp.tileSize;
 			g2.drawString(text,x,y);
@@ -163,7 +248,7 @@ public class UI {
 //			if(commandNum == 0) {
 //				g2.drawString(">", x-gp.tileSize, y);
 //			}
-			text="This game was created as a part of our OOP project(Project 234)";
+			text="This game was created as a part of our OOP project(CSE-234)";
 			 x = getXforCenteredText(text);
 			 y = gp.tileSize*2;
 			g2.drawString(text, x, y);
@@ -191,6 +276,9 @@ public class UI {
 			if(commandNum == 1) {
 				g2.drawString(">", x-gp.tileSize, y);
 			}
+			
+		}
+		else if(titleScreenState == 2) { /// Map Choice
 			
 		}
 		

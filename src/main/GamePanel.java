@@ -1,12 +1,9 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -33,29 +30,27 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	int FPS=60;
 	
 	// Map
-	TileManager tileH = new TileManager(this); 
+	TileManager[] tileH = new TileManager[3]; 
 	// KeyListener
-	KeyHandler keyH= new KeyHandler(this);
+	KeyHandler keyH = new KeyHandler(this);
 	// Collision Checker
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	
 	Thread gameThread;
 	
 	//***
-	public Player player = new Player (this,keyH) ; 
+	public Player player = new Player (this, keyH) ; 
 	
 	//Object Image
 	public AssetSetter aSetter = new AssetSetter(this);
 	
 	//UI
-	public UI ui =new UI(this);
+	public UI ui = new UI(this);
 	
 	public OBJ_Coin coin = new OBJ_Coin(this);
 	
 	public SuperObject obj[] = new SuperObject[2];
 	
-	//Object Array
-//	public Entity obj[]=new Entity[10];//we will add ten coins at a time
 	
 	//MONSTER ARRAY
 	public Entity monster[] = new Entity[2];
@@ -63,20 +58,21 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	//we will put player,entities and object into this list
 	//ArrayList<Entity>entityList=new ArrayList<>();
 	
-	
-	
 	//GameState
 	
 	public int gameState;
-	public int titleState=0;
-	public final int playState=1;
-	public final int pauseState=2;
-	public final int gameOverState=3;
-	
+	public int titleState = 0;
+	public final int playState = 1;
+	public final int pauseState = 2;
+	public final int gameOverState = 3;
+	public final int winState = 4;
 	
 	
 	public GamePanel() {
-        
+		
+		for(int i = 0; i < 3; ++i)
+			tileH[i] = new TileManager(this, i);
+        	
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//set the size of this class(JPanel
 //		this.setBackground(Color.BLACK);
 		this.setDoubleBuffered(true);//if set to true,all the drawing from this component will be done in an offscreen painting buffer 
@@ -89,16 +85,19 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	public void setupGame() {
 		aSetter.setObject();
 		aSetter.setMonster();
-		gameState = titleState;//it starts from this state
-		
-		
+		gameState = titleState; //it starts from this state
+	}
+	
+	public void reStart() {
+		player.setDefaultValues();
+		aSetter.setObject();
+		aSetter.setMonster();
 	}
 	
 	public void startGameThread() {
 		
 		gameThread = new Thread(this);
-		gameThread.start();//it automatically calls run method
-		
+		gameThread.start();//it calls the run method
 	}
 	
 	@Override
@@ -150,13 +149,10 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 		
 	//TITLE SCREEN
 	
-		if(gameState==titleState)
-		{
+		if(gameState==titleState)	{
 			ui.draw(g2);
 		}
-		//others
-		else
-		{
+		else	{
 			
 			/// Background Image
 			
@@ -164,23 +160,22 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 			g2.drawImage(bg.getImage(), 0, 0, null);
 			
 			//Tile
-			tileH.draw(g2);
+//			tileH.draw(g2);
 
 			//ADD ENTITIES TO THE LIST	
 		//	entityList.add(player);
 			
 //				COIN
-			for(int i=0;i<obj.length;i++) {
-				if(obj[i]!=null) {	
-//				entityList.add(obj[i]);
+			for(int i = 0; i < obj.length; i++) {
+				if(obj[i] != null) {	
 //				System.out.println("Object Found");
 					obj[i].draw(g2, this);
 				}
 			}
 
 			//Monster
-			for(int i=0;i<monster.length;i++) {
-				if(monster[i]!=null) {
+			for(int i = 0; i < monster.length; i++) {
+				if(monster[i] != null) {
 					//entityList.add(monster[i]);	
 //						System.out.println("Trying to draw a monster");
 					monster[i].draw(g2, this);
@@ -194,8 +189,6 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 			//Drawing Hearts
 			ui.draw(g2);
 		}
-		
-
 		
 		
 		g2.dispose();

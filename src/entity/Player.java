@@ -2,7 +2,6 @@ package entity;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -15,9 +14,7 @@ public class Player extends Entity {
 //	
 	GamePanel gp;
 	KeyHandler keyH;
-	public int hasCoin = 0;
-	
-	public boolean isFalling = false;
+	public int hasCoin;
 	
 
 	public  Player(GamePanel gp, KeyHandler keyH) {
@@ -25,10 +22,6 @@ public class Player extends Entity {
 		this.keyH = keyH; 
 		
 		setDefaultValues();
-		
-		// For Collision Check
-//		solidArea = new Rectangle(x, y, gp.tileSize, gp.tileSize); // x+16, y+16, 30, 30
-		
 		getplayerImage();
 	}
 	public void setDefaultValues() {
@@ -38,8 +31,14 @@ public class Player extends Entity {
 		y = 640;
 		speed = 4;
 		direction = "right";
+		isLeapingLeft = false;
+		isLeapingRight = false;
+		isFalling = false;
 		maxLife = 3;
 		life = 3;
+		invincible = false;
+		invincibleCounter = 0;
+		hasCoin = 0;
 	}
 	public void getplayerImage() {
 		try {
@@ -53,27 +52,46 @@ public class Player extends Entity {
 			right1=ImageIO.read(getClass().getResourceAsStream("Right1.png"));
 			right2=ImageIO.read(getClass().getResourceAsStream("Right2.png"));
 			
-			
-			
-		}catch(IOException e) {
+		}	catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	public void update() {
 		
+		if(invincible==true) {
+			invincibleCounter++;
+			if(invincibleCounter>90) {
+				invincible=false;
+				invincibleCounter=0;
+			}
+		}
 		
 		/// Fall handling
 		
-//		if(isFalling)	{
-//			y += 1;
-////			System.out.println("Should be falling");
-//		}
-//		gp.cChecker.checkTile(this, true);
+//		System.out.println("falling state == "+isFalling);
+		
+		gp.cChecker.checkTile(this, true);
+		
+		if(isFalling)	{
+			y += speed;
+			System.out.println("Should be falling");
+		}
+		else if(isLeapingLeft) {
+			x -= speed;
+		}
+		else if(isLeapingRight) {
+			x += speed;
+		}
+
+		
+		if(isLeapingLeft || isLeapingRight || isFalling)
+			return;
+		
 		
 		
 		/// Player's collision with tiles
 		
-		if(keyH.upPressed==true || keyH.downPressed==true || keyH.leftPressed==true || keyH.rightPressed == true  )	{
+		if( keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true  )	{
 			
 			String prevDirection = direction;
 			
@@ -125,13 +143,7 @@ public class Player extends Entity {
 		
 		/// Player's collision with monster
 		
-		if(invincible==true) {
-			invincibleCounter++;
-			if(invincibleCounter>90) {
-				invincible=false;
-				invincibleCounter=0;
-			}
-		}
+
 		
 		int index;
 		if(invincible == false) {
@@ -159,8 +171,14 @@ public class Player extends Entity {
 			hasCoin++;
 			gp.obj[index] = null;
 		}
+		
+		if(hasCoin == gp.obj.length) {
+			gp.gameState = gp.winState;
+		}
 //		System.out.println("COin == " + hasCoin);
 	}
+	
+	
 	public void draw(Graphics2D g2) {
 		BufferedImage image=null;
 		switch(direction) {
@@ -199,13 +217,13 @@ public class Player extends Entity {
 		
 			
 		}
-			if(invincible==true) { 
-				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6f));//
-			} 
-			g2.drawImage(image, x, y, gp.tileSize,gp.tileSize,null); 
-	
-	//Reset Alpha ////
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));//
+		if(invincible==true) { 
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6f));//
+		} 
+		g2.drawImage(image, x, y, gp.tileSize,gp.tileSize,null); 
+
+		//Reset Alpha 
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));//
 
 	}
 }

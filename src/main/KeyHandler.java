@@ -23,67 +23,50 @@ public class KeyHandler implements KeyListener{
 		int code=e.getKeyCode();
 		
 		//TITLE STATE
-		if(gp.gameState==gp.titleState) {
+		if(gp.gameState == gp.titleState) {
+
 			
-			if(code==KeyEvent.VK_UP) {
+			if(gp.ui.titleScreenState == 0) { /// Main Menu
 				
-				gp.ui.commandNum--;
-				if(gp.ui.commandNum<0) {
-					gp.ui.commandNum=2;
-				}
-			}
-			if(code==KeyEvent.VK_DOWN) {
-				gp.ui.commandNum++;
-				if(gp.ui.commandNum>2) {
-					gp.ui.commandNum=0;
-				}
-			}
-			if(code==KeyEvent.VK_ENTER) {
-				if(gp.ui.commandNum==0) {
-					gp.gameState=gp.playState;
-					//gp.playMusic(0);
-				}
-				if(gp.ui.commandNum==1) {
-					gp.ui.titleScreenState=1;
-				}
-				if(gp.ui.commandNum==2) {
-					System.exit(0);
-				}
-			}
-		}
-		
-		// FOR ABOUT SCREEN
-		
-		else if(gp.ui.titleScreenState==1) {
+				
 				if(code==KeyEvent.VK_UP) {
-					
 					gp.ui.commandNum--;
-					if(gp.ui.commandNum<0) {
-						gp.ui.commandNum=1;
+					if(gp.ui.commandNum < 0) {
+						gp.ui.commandNum=2;
 					}
 				}
 				if(code==KeyEvent.VK_DOWN) {
 					gp.ui.commandNum++;
-					if(gp.ui.commandNum>1) {
+					if(gp.ui.commandNum > 2) {
 						gp.ui.commandNum=0;
 					}
 				}
 				if(code==KeyEvent.VK_ENTER) {
-					if(gp.ui.commandNum==1) {
-						gp.ui.titleScreenState=0;
+					if(gp.ui.commandNum==0) {
+						gp.gameState=gp.playState;
 					}
+					if(gp.ui.commandNum==1) {
+						gp.ui.titleScreenState=1;
+					}
+					if(gp.ui.commandNum==2) {
+						System.exit(0);
+					}
+					
+				}
+			}		
+		else if(gp.ui.titleScreenState == 1) { // FOR ABOUT SCREEN	-2nd Screen
+				if(code==KeyEvent.VK_ENTER) {
+						gp.ui.titleScreenState = 0;
+						gp.ui.commandNum = 0;
 				}	
-			
+		  }
 		}
-		
-		//FOR GAME OVER STATE
-		else if(gp.gameState == gp.gameOverState) {
+		else if(gp.gameState == gp.pauseState) { 
 			if(code==KeyEvent.VK_UP) {
 				gp.ui.commandNum--;
 				if(gp.ui.commandNum<0) {
 					gp.ui.commandNum=1;
 				}
-		//		gp.playSE(9);
 			}
 			if(code==KeyEvent.VK_DOWN) {
 				gp.ui.commandNum++;
@@ -91,22 +74,57 @@ public class KeyHandler implements KeyListener{
 					gp.ui.commandNum=0;
 				}
 			}
-			//Enter press at RETRY or QUIT
-			
 			if(code==KeyEvent.VK_ENTER) {
-			if(gp.ui.commandNum==0) {
-				gp.gameState=gp.playState;
-				//gp.retry();
-			}
-			else if(gp.ui.commandNum==1) {
-				gp.gameState=gp.titleState;
+				if(gp.ui.commandNum==0) {
+					gp.gameState = gp.playState;
+				}
+				else if(gp.ui.commandNum==1) {
+					gp.gameState=gp.titleState;
+				}
+				gp.ui.commandNum = 0;
 			}
 		}
 		
-	}
-		
+	//	FOR GAME OVER STATE
+		else if(gp.gameState == gp.gameOverState) {
+			if(code==KeyEvent.VK_UP) {
+				gp.ui.commandNum--;
+				if(gp.ui.commandNum<0) {
+					gp.ui.commandNum=1;
+				}
+			}
+			if(code==KeyEvent.VK_DOWN) {
+				gp.ui.commandNum++;
+				if(gp.ui.commandNum>1) {
+					gp.ui.commandNum=0;
+				}
+			}
+			if(code==KeyEvent.VK_ENTER) {
+				if(gp.ui.commandNum == 0) { // Retry
+					gp.gameState = gp.playState;
+					gp.reStart();
+	
+				}
+				else if(gp.ui.commandNum == 1) { // Quit Game
+					gp.gameState = gp.titleState;
+					gp.reStart();
+				}
+				gp.ui.commandNum = 0;
+			}
+			
+		}
+		else if(gp.gameState == gp.winState) {
+			if(code==KeyEvent.VK_ENTER) {
+//				if(gp.ui.commandNum == 0) { // Main Menu
+					gp.gameState = gp.titleState;
+					gp.ui.titleScreenState = 0;
+					gp.reStart();
+//				}
+				gp.ui.commandNum = 0;
+			}
+		}
 		//PLAY STATE
-		if(gp.gameState==gp.playState)
+		if(gp.gameState == gp.playState)
 		{
 			if(code==KeyEvent.VK_UP) {
 				upPressed=true;
@@ -120,6 +138,9 @@ public class KeyHandler implements KeyListener{
 			if(code==KeyEvent.VK_RIGHT) {
 				rightPressed=true;
 			}
+			if(code == KeyEvent.VK_ESCAPE) {
+				gp.gameState = gp.pauseState;
+			}
 		}
 
 	}
@@ -127,20 +148,20 @@ public class KeyHandler implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		
-	int code=e.getKeyCode();
-		
-		if(code==KeyEvent.VK_UP) {
-			upPressed=false;
+		int code=e.getKeyCode();
+			
+			if(code==KeyEvent.VK_UP) {
+				upPressed=false;
+			}
+			if(code==KeyEvent.VK_DOWN) {
+				downPressed=false;
+			}
+			if(code==KeyEvent.VK_LEFT) {
+				leftPressed=false;
+			}
+			if(code==KeyEvent.VK_RIGHT) {
+				rightPressed=false;
+			}
 		}
-		if(code==KeyEvent.VK_DOWN) {
-			downPressed=false;
-		}
-		if(code==KeyEvent.VK_LEFT) {
-			leftPressed=false;
-		}
-		if(code==KeyEvent.VK_RIGHT) {
-			rightPressed=false;
-		}
-	}
 
 }

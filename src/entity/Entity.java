@@ -18,16 +18,15 @@ public class Entity {
 	
 	// For Collision Check
 	public boolean collisionOn = false;
-	public boolean isFalling = false;
-//	public Rectangle solidArea;
+	public boolean isLeapingLeft;
+	public boolean isLeapingRight;
+	public boolean isFalling;
 	
 	
-	/// EXTRA
-//	public int solidAreaDefaultX,solidAreaDefaultY;
 	public int actionLockCounter=0;
 	
-	public boolean invincible = false;
-	public int invincibleCounter = 0;
+	public boolean invincible;
+	public int invincibleCounter;
 	public BufferedImage image,image2,image3;
 	public String name;
 	public boolean collision=false;
@@ -68,29 +67,11 @@ public class Entity {
 				direction = "left";
 				
 		}
-//	//	gp.cChecker.checkObject(this, false);
-//		gp.cChecker.checkEntity(this,gp.monster);
-//		boolean contactPlayer = gp.cChecker.checkPlayer(this);
-//		
-//		
-//		if(this.type==2 && contactPlayer==true) {
-//			if(gp.player.invincible==false) {
-//				//we can give damage
-//				gp.player.life=-1;
-//				gp.player.invincible=true;
-//			}
-//		}
 		
-		//IF COLLISION IS FALSE, MONSTER CAN MOVE
-		
-//		if(collisionOn==false) {
 			switch(direction) {
-//			case "up":y-=speed;break;
-//			case "down":x+=speed;break;
 			case "left" :x-=speed;break;
 			case "right" :x+=speed;break;
 			}
-//		}
 		
 		spriteCounter++;
 		 if(spriteCounter>12) {
@@ -111,12 +92,6 @@ public class Entity {
 		image = left1; 
 		
 //		direction = "right";
-		
-//		int sx = gp.screenWidth/2 -(gp.tileSize/2);
-//		int sy = gp.screenHeight/2 -(gp.tileSize/2);
-		
-//		int screenX= x - gp.player.x + sx;
-//		int screenY= y - gp.player.y + sy;
 		
 
 		switch(direction) {
