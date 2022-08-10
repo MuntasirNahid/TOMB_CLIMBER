@@ -181,9 +181,9 @@ public class UI {
 		
 		if(titleScreenState == 0) { // main menu
 			//background Color:
-			g2.setColor(new Color(0,0,0));//RGB Number
-			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
-			
+//			g2.setColor(new Color(0,0,0));//RGB Number
+//			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+//			
 			//TITLE NAME
 			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
 			String text="TOMB CLIMBER";
@@ -237,7 +237,7 @@ public class UI {
 			
 			//ABOUT SECOND SCREEN
 			
-			g2.setColor(Color.BLACK);
+			g2.setColor(Color.white);
 			g2.setFont(g2.getFont().deriveFont(42F));
 			
 			String text = "INFO:";
@@ -277,8 +277,8 @@ public class UI {
 			
 		}
 		else if(titleScreenState == 2) { /// Map Choice
-			g2.setColor(new Color(0,0,0));//RGB Number
-			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+//			g2.setColor(new Color(0,0,0));//RGB Number
+//			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 			
 			//TITLE NAME
 			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
