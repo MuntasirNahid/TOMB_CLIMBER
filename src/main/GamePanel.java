@@ -30,7 +30,8 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	int FPS=60;
 	
 	// Map
-	TileManager[] tileH = new TileManager[3]; 
+//	TileManager[] tileH = new TileManager[3]; 
+	TileManager tileH = new TileManager(this, 0);
 	// KeyListener
 	KeyHandler keyH = new KeyHandler(this);
 	// Collision Checker
@@ -70,8 +71,8 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	
 	public GamePanel() {
 		
-		for(int i = 0; i < 3; ++i)
-			tileH[i] = new TileManager(this, i);
+//		for(int i = 0; i < 3; ++i)
+//			tileH[i] = new TileManager(this, i);
         	
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//set the size of this class(JPanel
 //		this.setBackground(Color.BLACK);
@@ -160,7 +161,7 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 			g2.drawImage(bg.getImage(), 0, 0, null);
 			
 			//Tile
-//			tileH.draw(g2);
+			tileH.draw(g2);
 
 			//ADD ENTITIES TO THE LIST	
 		//	entityList.add(player);

@@ -27,8 +27,6 @@ public class KeyHandler implements KeyListener{
 
 			
 			if(gp.ui.titleScreenState == 0) { /// Main Menu
-				
-				
 				if(code==KeyEvent.VK_UP) {
 					gp.ui.commandNum--;
 					if(gp.ui.commandNum < 0) {
@@ -42,11 +40,13 @@ public class KeyHandler implements KeyListener{
 					}
 				}
 				if(code==KeyEvent.VK_ENTER) {
-					if(gp.ui.commandNum==0) {
-						gp.gameState=gp.playState;
+					if(gp.ui.commandNum == 0) {
+						System.out.println("GOING");
+						gp.ui.titleScreenState = 2; // go to map choice screen
+//						gp.gameState=gp.ui.titleScreenState;
 					}
-					if(gp.ui.commandNum==1) {
-						gp.ui.titleScreenState=1;
+					if(gp.ui.commandNum == 1) {
+						gp.ui.titleScreenState = 1;
 					}
 					if(gp.ui.commandNum==2) {
 						System.exit(0);
@@ -60,7 +60,28 @@ public class KeyHandler implements KeyListener{
 						gp.ui.commandNum = 0;
 				}	
 		  }
+		else if(gp.ui.titleScreenState == 2) { // Map Choice
+			System.out.println("HERE");
+			if(code==KeyEvent.VK_UP) {
+				gp.ui.commandNum--;
+				if(gp.ui.commandNum < 0) {
+					gp.ui.commandNum = 3;
+				}
+			}
+			if(code==KeyEvent.VK_DOWN) {
+				gp.ui.commandNum++;
+				if(gp.ui.commandNum > 3) {
+					gp.ui.commandNum = 0;
+				}
+			}
+			if(code==KeyEvent.VK_ENTER) {
+				gp.gameState = gp.playState;
+			}
+			
 		}
+	} /// End of titleState
+		
+		
 		else if(gp.gameState == gp.pauseState) { 
 			if(code==KeyEvent.VK_UP) {
 				gp.ui.commandNum--;
@@ -78,8 +99,9 @@ public class KeyHandler implements KeyListener{
 				if(gp.ui.commandNum==0) {
 					gp.gameState = gp.playState;
 				}
-				else if(gp.ui.commandNum==1) {
+				else if(gp.ui.commandNum == 1) {
 					gp.gameState=gp.titleState;
+					gp.ui.titleScreenState = 0;
 				}
 				gp.ui.commandNum = 0;
 			}

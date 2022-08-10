@@ -35,7 +35,10 @@ public class TileManager {
 	public void loadMap() {
 		
 		try {
-			InputStream is = getClass().getResourceAsStream("map0"+Integer.toString(ind+1)+".txt");
+			
+			InputStream is = getClass().getResourceAsStream("map01.txt");
+			
+//			InputStream is = getClass().getResourceAsStream("map0"+Integer.toString(ind+1)+".txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			
 //			File file = new File("E:\\sam\\2-1\\CSE-234\\OOP Project\\res\\maps\\map01.txt");

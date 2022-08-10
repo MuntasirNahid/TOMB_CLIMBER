@@ -279,7 +279,61 @@ public class UI {
 			
 		}
 		else if(titleScreenState == 2) { /// Map Choice
+			g2.setColor(new Color(0,0,0));//RGB Number
+			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 			
+			//TITLE NAME
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
+			String text="CHOOSE A MAP: ";
+			int x=getXforCenteredText(text);
+			int y=gp.tileSize*3;
+			
+			//TEXT SHADOW:
+//			g2.setColor(Color.gray);
+//			g2.drawString(text, x+4, y+4);
+		
+			
+			//MAIN COLOR:
+			g2.setColor(Color.white);
+			g2.drawString(text,x,y);
+			
+			
+			//MENU
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
+			
+			text = "MAP 1";
+			x=getXforCenteredText(text);
+			y+=gp.tileSize*3.5;
+			g2.drawString(text, x, y);
+			if(commandNum == 0) {
+				g2.drawString(">", x-gp.tileSize, y);
+			}
+			
+			text = "MAP 2";
+			x=getXforCenteredText(text);
+			y+=gp.tileSize;
+			g2.drawString(text, x, y);
+			if(commandNum == 1) {
+				g2.drawString(">", x-gp.tileSize, y);
+			}	
+			
+			text = "MAP 3";
+			x=getXforCenteredText(text);
+			y+=gp.tileSize;
+			g2.drawString(text, x, y);
+			if(commandNum == 2) {
+				g2.drawString(">", x-gp.tileSize, y);
+				
+			}
+			
+			text = "MAP 4";
+			x=getXforCenteredText(text);
+			y+=gp.tileSize;
+			g2.drawString(text, x, y);
+			if(commandNum == 3) {
+				g2.drawString(">", x-gp.tileSize, y);
+				
+			}
 		}
 		
 	}
