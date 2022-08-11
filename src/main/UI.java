@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
+
 import entity.Entity;
 import object.OBJ_Heart;
 import object.SuperObject;
@@ -17,6 +19,8 @@ public class UI {
 	public int commandNum = 0;
 	public int titleScreenState = 0;//0: the first screen , 1: second screen
 	
+	
+	public long elapsedTime, beforePauseTime;
 	BufferedImage heart_full, heart_half, heart_blank;
 	 
 	public UI(GamePanel gp) {
@@ -40,9 +44,11 @@ public class UI {
 		//PLAY STATE
 		if(gp.gameState == gp.playState) {
 			drawPlayerLife();
+			
+			drawTimer();
 		}
 		
-		//--------------------------------------------
+	
 		//GAME OVER state
 		if(gp.gameState == gp.gameOverState) {
 			
@@ -68,13 +74,13 @@ public class UI {
 		int x;
 		int y;
 		String text;
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
 		
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
 		text = "CONGRATULATIONS!!!";
 		//SHADOW
 		g2.setColor(Color.black);
 		x = getXforCenteredText(text);
-		y = gp.tileSize*4;
+		y = gp.tileSize*2;
 		g2.drawString(text, x, y);
 		
 		//MAIN
@@ -82,10 +88,17 @@ public class UI {
 		g2.drawString(text, x-4, y-4);
 		
 		
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,70f));
+		text = "YOUR SCORE: "+(3600-elapsedTime*2+gp.coinCount*10);
+		x = getXforCenteredText(text);
+		y += gp.tileSize*2;
+		g2.drawString(text, x, y);
+		
+		
 		g2.setFont(g2.getFont().deriveFont(50f));
 		text = "MAIN MENU";
 		x = getXforCenteredText(text);
-		y += gp.tileSize*4;
+		y += gp.tileSize*3;
 		g2.drawString(text,x,y);
 		if(commandNum == 0) {
 			g2.drawString(">", x-40, y);
@@ -183,7 +196,7 @@ public class UI {
 			//background Color:
 //			g2.setColor(new Color(0,0,0));//RGB Number
 //			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
-//			
+			
 			//TITLE NAME
 			g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
 			String text="TOMB CLIMBER";
@@ -237,7 +250,7 @@ public class UI {
 			
 			//ABOUT SECOND SCREEN
 			
-			g2.setColor(Color.white);
+			g2.setColor(Color.WHITE);
 			g2.setFont(g2.getFont().deriveFont(42F));
 			
 			String text = "INFO:";
@@ -336,6 +349,26 @@ public class UI {
 		
 	}
 	
+
+	public void drawTimer() {
+		
+		
+
+		elapsedTime = (System.nanoTime() - gp.timer) / 1000000000;
+		
+		int minute = (int) elapsedTime / 60;
+		int second = (int) elapsedTime % 60;
+			
+		
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
+		String text = Integer.toString(minute)+":"+Integer.toString(second);
+		int x = gp.tileSize*10-32;
+		int y = gp.tileSize*12-16;
+		g2.drawString(text, x, y);
+		
+
+
+	}
 	
 	public void drawPlayerLife() {
 
@@ -345,7 +378,7 @@ public class UI {
 		int i = 0;
 		
 		//DRAW BLANK HEART
-		while(i < gp.player.maxLife) {
+		while(i < gp.player.maxLife/2) {
 			g2.drawImage(heart_blank, x, y, 40, 40, null);
 			i++;
 			x += 42;
@@ -358,11 +391,11 @@ public class UI {
 		 //		 //DRAW CURRENT LIFE
 		 
 		 while( i < gp.player.life ) {
-//			 g2.drawImage(heart_half, x, y, 40, 40, null);
-//			 i++;
-//			 if(i<gp.player.life) {
+			 g2.drawImage(heart_half, x, y, 40, 40, null);
+			 i++;
+			 if(i<gp.player.life) {
 				 g2.drawImage(heart_full, x, y, 40, 40, null);
-//			 }
+			 }
 			 i++;
 			 x += 42;
 		 }

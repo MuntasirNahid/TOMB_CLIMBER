@@ -666,7 +666,7 @@ public class AssetSetter {
 			gp.monster[ind][5].y = gp.tileSize*1;
 		}
 		
-		//MAP 3
+		// Map 3
 		
 		else if(ind == 2) {
 //			System.out.println(ind);
@@ -701,43 +701,40 @@ public class AssetSetter {
 		
 
 		
-		// Map 3
-		
-		//MAP 3
-		
-				else if(ind == 3) {
-//					System.out.println(ind);
-					gp.monster[ind][0] = new MON_MUMMY(gp);
-					gp.monster[ind][0].x = gp.tileSize*6;
-					gp.monster[ind][0].y = gp.tileSize*10;
-					
-					gp.monster[ind][1] = new MON_MUMMY(gp);
-					gp.monster[ind][1].x = gp.tileSize*19;
-					gp.monster[ind][1].y = gp.tileSize*10;
-					
-					gp.monster[ind][2] = new MON_MUMMY(gp);
-					gp.monster[ind][2].x = gp.tileSize*13;
-					gp.monster[ind][2].y = gp.tileSize*8;
-					
-					gp.monster[ind][3] = new MON_MUMMY(gp);
-					gp.monster[ind][3].x = gp.tileSize*16;
-					gp.monster[ind][3].y = gp.tileSize*0;
-				
-					gp.monster[ind][4] = new MON_MUMMY(gp);
-					gp.monster[ind][4].x = gp.tileSize*1;
-					gp.monster[ind][4].y = gp.tileSize*3;
-					
-					gp.monster[ind][5] = new MON_MUMMY(gp);
-					gp.monster[ind][5].x = gp.tileSize*19;
-					gp.monster[ind][5].y = gp.tileSize*2;
-					
-					gp.monster[ind][6] = new MON_MUMMY(gp);
-					gp.monster[ind][6].x = gp.tileSize*18;
-					gp.monster[ind][6].y = gp.tileSize*4;
-				}
-				
-		
 		// Map 4
+		
+		
+		else if(ind == 3) {
+//					System.out.println(ind);
+			gp.monster[ind][0] = new MON_MUMMY(gp);
+			gp.monster[ind][0].x = gp.tileSize*6;
+			gp.monster[ind][0].y = gp.tileSize*10;
+			
+			gp.monster[ind][1] = new MON_MUMMY(gp);
+			gp.monster[ind][1].x = gp.tileSize*19;
+			gp.monster[ind][1].y = gp.tileSize*10;
+			
+			gp.monster[ind][2] = new MON_MUMMY(gp);
+			gp.monster[ind][2].x = gp.tileSize*13;
+			gp.monster[ind][2].y = gp.tileSize*8;
+			
+			gp.monster[ind][3] = new MON_MUMMY(gp);
+			gp.monster[ind][3].x = gp.tileSize*16;
+			gp.monster[ind][3].y = gp.tileSize*0;
+		
+			gp.monster[ind][4] = new MON_MUMMY(gp);
+			gp.monster[ind][4].x = gp.tileSize*1;
+			gp.monster[ind][4].y = gp.tileSize*3;
+			
+			gp.monster[ind][5] = new MON_MUMMY(gp);
+			gp.monster[ind][5].x = gp.tileSize*19;
+			gp.monster[ind][5].y = gp.tileSize*2;
+			
+			gp.monster[ind][6] = new MON_MUMMY(gp);
+			gp.monster[ind][6].x = gp.tileSize*18;
+			gp.monster[ind][6].y = gp.tileSize*4;
+		}
+		
 	}
 
 }

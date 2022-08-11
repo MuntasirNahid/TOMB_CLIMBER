@@ -34,8 +34,8 @@ public class Player extends Entity {
 		isLeapingLeft = false;
 		isLeapingRight = false;
 		isFalling = false;
-		maxLife = 3;
-		life = 3;
+		maxLife = 6;
+		life = 6;
 		invincible = false;
 		invincibleCounter = 0;
 		hasCoin = 0;

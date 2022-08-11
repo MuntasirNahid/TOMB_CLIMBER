@@ -3,10 +3,10 @@ package main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+//import java.awt.image.BufferedImage;
+//import java.io.IOException;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -72,10 +72,9 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	public final int gameOverState = 3;
 	public final int winState = 4;
 	
-	BufferedImage bg;
-	
-	public int mapId;
+	public int mapId = 0;
 	public int coinCount = 0;
+	public long timer = System.nanoTime();
 	
 	public GamePanel() {
 		
@@ -92,20 +91,27 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	
 	//Object SetUp
 	public void setupGame() {
-		for(int i = 0; i < 4; ++i) {
-			aSetter.setObject(i);
-			aSetter.setMonster(i);
-		}
+//		for(int i = 0; i < 4; ++i) {
+//			aSetter.setObject(i);
+//			aSetter.setMonster(i);
+//		}
+		aSetter.setObject(mapId);
+		aSetter.setMonster(mapId);
 		gameState = titleState; //it starts from this state
 	}
 	
 	public void reStart() {
 		coinCount = 0;
+		timer = System.nanoTime();
+		
+		
 		player.setDefaultValues();
-		for(int i = 0; i < 4; ++i) {
-			aSetter.setObject(i);
-			aSetter.setMonster(i);
-		}
+//		for(int i = 0; i < 4; ++i) {
+//			aSetter.setObject(i);
+//			aSetter.setMonster(i);
+//		}
+		aSetter.setObject(mapId);
+		aSetter.setMonster(mapId);
 		
 	}
 	
@@ -143,7 +149,7 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	public void update() {
 		
 		if(gameState == playState) { 
-					
+			
 			player.update();
 			
 //			MONSTER
@@ -165,32 +171,20 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 	//TITLE SCREEN
 	
 		if(gameState == titleState)	{
-			try {
-				bg=ImageIO.read(getClass().getResourceAsStream("titleBg.jpg"));
 			
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
 			
-			g2.drawImage(bg, 0, 0, null);
+			ImageIcon bg = new ImageIcon("E:\\sam\\2-1\\CSE-234\\OOP Project\\src\\main\\titleBg.jpg");
+			g2.drawImage(bg.getImage(), 0, 0, null);
 			
 			ui.draw(g2);
-			
 		}
 		else	{
 			
 			/// Background Image
 			
-//			ImageIcon bg = new ImageIcon("background.jpg");
-			try {
-				bg=ImageIO.read(getClass().getResourceAsStream("background.jpg"));
+			ImageIcon bg = new ImageIcon("E:\\sam\\2-1\\CSE-234\\OOP Project\\src\\main\\background.jpg");
+			g2.drawImage(bg.getImage(), 0, 0, null);
 			
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
-			
-			g2.drawImage(bg, 0, 0, null);
-				
 			//Tile
 			tileH[mapId].draw(g2);
 
@@ -206,7 +200,7 @@ public class GamePanel extends JPanel implements Runnable{//this class inherits 
 			//Monster
 			for(int i = 0; i < monster[mapId].length; i++) {
 				if(monster[mapId][i] != null) {
-					//entityList.add(monster[i]);	
+					
 //						System.out.println("Trying to draw a monster");
 					monster[mapId][i].draw(g2, this);
 				}

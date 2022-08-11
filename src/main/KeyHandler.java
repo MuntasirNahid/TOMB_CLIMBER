@@ -61,7 +61,7 @@ public class KeyHandler implements KeyListener{
 				}	
 		  }
 		else if(gp.ui.titleScreenState == 2) { // Map Choice
-			System.out.println("HERE");
+//			System.out.println("HERE");
 			if(code == KeyEvent.VK_UP) {
 				gp.ui.commandNum--;
 				if(gp.ui.commandNum < 0) {
@@ -77,8 +77,10 @@ public class KeyHandler implements KeyListener{
 			if(code==KeyEvent.VK_ENTER) {
 				gp.gameState = gp.playState;
 				gp.mapId = gp.ui.commandNum;
-				System.out.println(gp.mapId);
+				gp.reStart();
+//				System.out.println(gp.mapId);
 				gp.ui.commandNum = 0;
+				
 			}
 			
 		}
@@ -99,7 +101,8 @@ public class KeyHandler implements KeyListener{
 				}
 			}
 			if(code==KeyEvent.VK_ENTER) {
-				if(gp.ui.commandNum==0) {
+				if(gp.ui.commandNum == 0) {
+					gp.timer += (System.nanoTime() - gp.ui.beforePauseTime);
 					gp.gameState = gp.playState;
 				}
 				else if(gp.ui.commandNum == 1) {
@@ -165,6 +168,7 @@ public class KeyHandler implements KeyListener{
 				rightPressed=true;
 			}
 			if(code == KeyEvent.VK_ESCAPE) {
+				gp.ui.beforePauseTime = System.nanoTime();
 				gp.gameState = gp.pauseState;
 			}
 		}
